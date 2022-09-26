@@ -309,3 +309,229 @@ EXIT;
   ```
   - Create
   
+## Part 3 - Recovering RDS DB Instance from Manual Snapshot
+
+- Connect to RDS DB instance from MariaDB Client. Note: We need to delete some data to simulate the data lost.
+
+- Login back to the RDS MySQL DB instance (`RDS-mysql`) as `admin` using the password defined with SSL pass: 
+`Pl123456789`.
+
+```bash
+mysql -h RDS_ENDPOINT -u admin -p
+```
+- Choose a database 
+
+```sql
+USE clarusway;
+```
+
+  - Delete `employees` who earns salary above `$70000` from the `clarusway` db on `RDS-mysql`.
+
+    - Show all data in `employee` table.
+
+    ```sql
+    SELECT * FROM employees;
+    ```
+
+    - Delete `employees` who have salary above `$70000`:
+
+    ```sql
+    DELETE FROM employees WHERE salary > 70000;
+    ```
+
+    - Show that records left in `employees` tables are the ones who have salary lower than $70000. 
+
+    ```sql
+    SELECT * FROM employees;
+
+    There are only 7 personal now.
+    ```
+
+- Restore database from manual snapshot as new DB instance and name it as `restored-from-man-snapshot`.
+
+  - Go to snapshot on left hand menu and select snapshot named `manual-snapshot-RDS-mysql`.
+
+  - Click Action ----> Restore snapshot.
+
+  ```text
+  - DB specifications:
+    Engine : MySQL Community
+
+  - Settings:
+    DB Instance identifier : restored-from-man-snapshot
+
+  - Connectivity:
+    Virtual private cloud (VPC)Info: Default
+
+  - Additional connectivity configuration:
+    Subnet Group : Default
+    Public Accessible: Yes
+    Existing VPC security groups: DatabaseSecGrb
+
+  - DB instance size:(System changed it automatically to the Standard classes) 
+    ***Select Burstable classes (includes t classes)
+    ***t2.micro
+
+  - Storage:
+    General Purpose SSD
+    Allocated storage : 20 GiB
+
+  - Availability & durability:
+    Do not create standby Instance
+    Availability Zone: No preference
+
+  - Database authentication:
+    Password authentication
+
+  - Encryption:
+    Keep it as is
+
+  - Additional configuration:
+    Keep it as is
+  ```
+
+- This time we are going to connect as `admin` using the password defined `Pl123456789` to the newly RDS Instance named 
+`restored-from-man-snapshot` that is created from snapshot.
+
+```bash
+mysql -h [***restored-from-man-snapshot RDS endpoint] -u admin -p
+```
+
+- Choose a database (`clarusway` db) to work with.
+
+```sql
+USE clarusway;
+```
+
+- Show tables within the `clarusway` db.
+
+```sql
+SHOW TABLES;
+```
+
+- Show that deleted records of employees are back in `restored-from-man-snapshot`
+
+```sql
+SELECT * FROM employees;
+```
+- Exit from`restored-from-man-snapshot` database
+
+```sql
+EXIT;
+```
+## Part 4 - Restoring RDS DB Instance from a "Point in Time"
+
+- Connect to the 'RDS-Mysql` database again.
+
+```bash
+mysql -h [RDS-MysqlENDPOINT] -u admin -p
+```
+- Choose a database 
+
+```sql
+USE clarusway;
+```
+
+- This time, delete `employees` who earn salary above `$60000` from the `clarusway` db on `RDS-Mysql`.
+
+```sql
+DELETE FROM employees WHERE salary > 60000;
+```
+- Show the data in employees table
+
+```sql
+SELECT * FROM employees;
+
+there are only 4 records 
+```
+- To rescue the data we'll Restore database from the "point in time snapshot" that will be named as 
+`restored-from-point-in-time-RDS`.
+
+  - Go to Amazon RDS console and select `RDS-Mysql` database.
+
+  ```text
+  Actions ---> Restore to point in time
+  ```
+
+  - Launch DB Instance.
+
+  ```text
+  - Restore Time
+    Custom ----> Enter the exact time that you wrote down at the end of the PART-1
+  - DB Engine
+    MySQL Community Edition
+  - License model
+    general public-licence
+  - DB instance class
+    t2.micro
+  - Multi-AZ deployment
+    No
+  - Storage type
+    General Purpose SSD
+
+  Settings:
+  - DB instance identifier
+    restored-from-point-in-time-RDS
+  - Parameter group
+    default.mysql8.0
+
+  Network & Security:
+  Virtual Private Cloud (VPC)
+    Default
+  - Subnet group
+    default
+  - Public accessibility
+    *Yes
+  - Availability zone, Security groups, Database options, Backup, Log exports, Maintenance
+    Keep it as is
+  ```
+
+- Go to the MariaDB Client instance.
+
+- Log into the RDS instance (`restored-from-point-in-time-RDS`) as `admin` using the password defined `Pl123456789`
+
+```bash
+mysql -h [DNS Name of point in time recovery RDS Instance] -u admin -p clarusway
+```
+
+- Show that deleted records of employees are back in `restored-from-point-in-time-RDS`.
+
+```sql
+SELECT * FROM employees ORDER BY salary ASC;
+```
+
+## Part 5 - Dumping and Migrating Database
+
+- Show that some information are absent in the `clarusway` database on RDS DB instance (`RDS-Mysql`). We need to recover 
+absent data from snapshot via dumping.
+
+- Go to MariaDB Client instance by connecting with SSH.
+
+- Back up the `clarusway` db from RDS DB instance (`restored-from-point-in-time-RDS`) to the file named `backup.sql` on 
+EC2 instance.
+
+```bash
+mysqldump -h [restored-from-point-in-time-RDS endpoint] -u admin -p clarusway > backup.sql
+```
+
+- Show `backup.sql` file with `ls` command.
+
+- Restore the backup of `clarusway` db on to the MySQL DB Server (`RDS-mysql` instance) using  `backup.sql` file
+
+```bash
+mysql -h [RDS-mysql endpoint] -u admin -p clarusway < backup.sql
+```
+
+- Connect to the `RDS-mysql` instance.
+
+```bash
+mysql -h [RDS-mysql endpoint] -u admin -p;
+```
+
+- Show that all records are replicated in the `clarusway` database.
+
+```sql
+SHOW DATABASES;
+USE clarusway;
+SELECT * FROM employees;
+```
