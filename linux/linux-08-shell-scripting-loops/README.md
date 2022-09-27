@@ -103,14 +103,17 @@ chmod +x until-loop.sh
 
 echo "Numbers:"
 
-for number in 0 1 2 3 4 5 6 7 8 9
+for number in 0 1 2 3 4 5 6 7 8 9 
+# alternatively {1..10} or {1..10..2}
+
+# for (( i=0;i<=5;i++ ))
 do
    echo $number
 done
 
 echo "Names:"
 
-for name in Joe David Matt John Timothy
+for name in Mehmet Hasan Cagatay Halil Aslan
 do
    echo $name
 done
