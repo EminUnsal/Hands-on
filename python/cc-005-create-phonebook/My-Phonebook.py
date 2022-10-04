@@ -1,9 +1,7 @@
-
-## işlemi seç
-from argparse import _CountAction
+from ast import And
 import time
 
-
+contact = {}
 def menu():
     time.sleep(1)
     print(""" Welcome to the phonebook application
@@ -11,14 +9,12 @@ def menu():
     2. Insert a phone number
     3. Delete a person from the phonebook
     4. Terminate""")
-    giris = input("Select operation on Phonebook App (1/2/3) :  ")
+    giris = input("Select operation on Phonebook App (1/2/3/4) :  ")
 
 
     return giris
 
 def phonebook():
-
-    contact = {}
 
     while True:
         giris=menu()
@@ -29,15 +25,18 @@ def phonebook():
             else:
                 print(contact[find_name])
             time.sleep(1)
+            print(" ")
         elif giris == '2':
             name = input('Insert name of the person : ')
-            number = int(input('Insert phone number of the person : '))
-            if type(number) == int :
+            number =input('Insert phone number of the person : ')
+            if number not in contact.values() and number.isnumeric() == True :
+                contact.update({name:number})
                 print ('Phone number of', name, 'is inserted into the phonebook')
             else:
                 print('Invalid input format, cancelling operation ...')
-            contact.update({name:number})
+            
             time.sleep(1)
+            print(" ")
         elif giris == '3':
             delete_name = input("Whom to delete from phonebook :")
             if delete_name in contact.keys():
@@ -52,7 +51,7 @@ def phonebook():
             time.sleep(1)
         else:
             print("Gecersiz giris!!")
-    print(contact)
-print(phonebook())
     
+print(phonebook())
+print(contact)   
 
