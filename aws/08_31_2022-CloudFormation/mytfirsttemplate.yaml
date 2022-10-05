@@ -1,0 +1,16 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: |
+  This template launches an EC2 with a security group that enables SSH.
+  
+Resources:
+MyServer:
+  Type: AWS::EC2::Instance
+  Properties:
+    ImageId: ami-05fa00d4c63e32376
+    InstanceType: t2.micro
+    KeyName: north-virgina # please use your own key without .pem 
+    SecurityGroups:
+      - ssh-sec-grp
+    Tags:
+      - Key: Name
+        Value: First-Cfn-Instance
