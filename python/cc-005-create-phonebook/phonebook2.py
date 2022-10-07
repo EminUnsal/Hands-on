@@ -1,4 +1,3 @@
-from ast import And
 import time
 
 contact = {}
@@ -10,7 +9,6 @@ def menu():
     3. Delete a person from the phonebook
     4. Terminate""")
     giris = input("Select operation on Phonebook App (1/2/3/4) :  ")
-
 
     return giris
 
