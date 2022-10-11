@@ -395,7 +395,7 @@ Value/Route traffic to :
 Routing: "Simple"
 ```
 
-### STEP 3: Creating in A record with "wwww" in Private Hosted Zone
+### STEP 3: Creating in A record with "www" in Private Hosted Zone
 
 - Go  to "PRIVATE" Hosted Zone 
 - Create A record in "PRIVATE" Hosted Zone 
