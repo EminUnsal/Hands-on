@@ -1,0 +1,12 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: |
+  
+Resources:
+  LogicalID:
+    Type: AWS::EC2::Instance
+    Properties:
+      LaunchTemplate:
+        LaunchTemplateId: lt-0dc4cc79d27e234d5
+        Version: "1"
+  
+  
