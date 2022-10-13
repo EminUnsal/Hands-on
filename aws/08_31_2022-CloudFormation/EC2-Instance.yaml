@@ -6,11 +6,11 @@ Resources:
   MyServer:
     Type: AWS::EC2::Instance
     Properties:
-      ImageId: ami-05fa00d4c63e32376
+      ImageId: ami-026b57f3c383c2eec
       InstanceType: t2.micro
-      KeyName: First_Key
+      KeyName: First_Key # use your own key without.pem
       SecurityGroups:
-        - ssh-sec-group
+        - SSH-HTTP for EC2
       Tags:
         - Key: Name
-          Value: My-First-Cfn-Instance
+          Value: Ec2-Template
