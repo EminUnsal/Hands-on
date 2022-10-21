@@ -5,8 +5,8 @@ from boto3 import Session
 from botocore.exceptions import ClientError
 
 # Add your access key and secret key here
-# sess = Session(aws_access_key_id="AKIAQVTOSDR3SSZ2SQK2",
-#                aws_secret_access_key="jhtsU/dfRBskDGRQPVPXN0TOOeK0VgRjeCcIUBPB",
+# sess = Session(aws_access_key_id="A...........",
+#                aws_secret_access_key="..............",
 #                region = "us-east-1")
 
 sess = Session()
