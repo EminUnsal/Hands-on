@@ -126,6 +126,8 @@ mkdir terraform-aws && cd terraform-aws && touch main.tf
 
 - Create a file named `main.tf` for the configuration code and copy and paste the following content. 
 
+ # wenn man die Codes farbieren lassen will,dann installiere 'HashiCorp Terraform' Extencion auf dem rechten Manu
+
 ```t
 terraform {
   required_providers {
