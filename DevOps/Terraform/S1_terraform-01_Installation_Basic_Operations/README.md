@@ -353,6 +353,7 @@ Apply complete! Resources: 1 added, 0 changed, 0 destroyed.
 terraform state list
 aws_instance.tf-ec2
 ```
+# terraform plan ile de gercek durumunu altyapimizin check edebiliriz, terraform reflesh gibi bir ozelligi var
 
 ### Creating a AWS S3 bucket
 
