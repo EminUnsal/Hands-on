@@ -133,14 +133,21 @@ terraform {
       source = "hashicorp/aws"
       version = "4.8.0"
     }
+  # wenn man noch andere Terraform-Anbieter hinzufugen will,musst man hier schreiben
+  # azure
   }
+  # backend must be specified here 
 }
 
 provider "aws" {
+  # here region musst be specified
   region  = "us-east-1"
+  # access key and secret key can be entered here
   # access_key = "my-access-key"
   # secret_key = "my-secret-key"
   ## profile = "my-profile"
+   
+  
 }
 
 resource "aws_instance" "tf-ec2" {
