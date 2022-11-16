@@ -200,9 +200,10 @@ Initializing provider plugins...
 
 Terraform has been successfully initialized!
 
+# terraform init'den sonra .terraform.lock.hcl dosyasi olusuyor ve bu versionu kitliyor .egerki versionu duzeltmek istiyorsak terraform init upgrade kodunu kullaniyoruz
+
 You may now begin working with Terraform. Try running "terraform plan" to see
-any changes that are required for your infrastructure. All Terraform commands
-should now work.
+any changes that are required for your infrastructure. All Terraform commands should now work.
 
 If you ever set or change modules or backend configuration for Terraform,
 rerun this command to reinitialize your working directory. If you forget, other
@@ -215,7 +216,7 @@ Terraform downloads the `aws` provider and installs it in a hidden subdirectory 
 
 ### Create infrastructure
 
-- Run `terraform plan`. You should see an output similar to the one shown below.
+- Run `terraform plan`. You should see an output similar to the one shown below. # bu kodu yazdiktan sonra 
 
 ```bash
 terraform plan
@@ -337,6 +338,8 @@ Apply complete! Resources: 1 added, 0 changed, 0 destroyed.
 ```
 
 - Visit the EC2 console to see the created EC2 instance.
+# terraform.tfstate dosyasinda guncel hali duruyor infrastructure'in.
+# terraform.tfstate.backup'da bir onceki hali duruyor infrastructure'in
 
 ### Inspect state
 
