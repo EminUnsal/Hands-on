@@ -121,7 +121,7 @@ terraform fmt
 
 ### terraform console
 
-- Go to the terminal and run `terraform console`.This command provides an interactive command-line console for evaluating and experimenting with expressions. This is useful for testing interpolations before using them in configurations, and for interacting with any values currently saved in state. You can see the attributes of resources in tfstate file and check built in functions before you write in your configuration file. 
+- Go to the terminal and run `terraform console`.(bu komutu kullanmak icin ortamdan .tfstate dosyasi olmasi lazim.)This command provides an interactive command-line console for evaluating and experimenting with expressions. This is useful for testing interpolations before using them in configurations, and for interacting with any values currently saved in state. You can see the attributes of resources in tfstate file and check built in functions before you write in your configuration file. 
 
 - Lets create a file under the terraform-aws directory and name it `cloud` and paste `hello devops engineers`.
 
@@ -142,7 +142,7 @@ terraform console
 > aws_s3_bucket.tf-s3.bucket
 > exit or (ctrl+c)
 ```
-
+# https://developer.hashicorp.com/terraform/language/functions daha fazla gomulu fonktion icin buraya bak
 ### show command.
 
 - Go to the terminal and run `terraform show`.
@@ -182,13 +182,15 @@ output "tf_example_s3_meta" {
 ```bash
 terraform apply
 terraform output
-terraform output -json
-terraform output tf_example_public_ip
+terraform output -json # output'u json formatinda yazdiriyoruz
+terraform output tf_example_public_ip #sadece istedigimiz ciktiyi cekiyoruz
+terraform output -raw tf_example_public_ip # ciktinin etrafindaki kesme isaretlerini kaldiriyor.
 ```
 
 ### terraform apply -refresh-only command.
 
-- The `terraform apply -refresh-only` command is used to update the state file with the real-world infrastructure. This can be used to detect any drift from the last-known state, and to update the state file. First, check the current state of your resources with `terraform state list`. Then go to the AWS console and delete your S3 bucket `oliver-tf-test-bucket-addwhateveryouwant`. Display the state list again and refresh the state. Run the following commands.
+- The `terraform apply -refresh-only` command is used to update the state file with the real-world infrastructure. This can be used to detect any drift from the last-known state, and to update the state file. First, check the current state of your resources with `terraform state list`. Then go to the AWS console and delete your S3 bucket `oliver-tf-test-bucket-addwhateveryouwant`. Display the state list again and refresh the state. Run the following commands. 
+# birisi manuel olarak resource silerse,state'i guncellemek icin bu komutu kullaniriz
 
 ```bash
 $ terraform state list
