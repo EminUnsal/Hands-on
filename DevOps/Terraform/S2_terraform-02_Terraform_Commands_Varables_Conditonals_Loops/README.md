@@ -43,7 +43,7 @@ terraform {
 resource "aws_instance" "tf-ec2" {
   ami           = "ami-0ed9277fb7eb570c9"
   instance_type = "t2.micro"
-  key_name      = "mehmet"    # write your pem file without .pem extension>
+  key_name      = "First_Key"    # write your pem file without .pem extension>
   tags = {
     "Name" = "tf-ec2"
   }
@@ -526,8 +526,9 @@ resource "aws_s3_bucket" "tf-s3" {
 #   value = aws_s3_bucket.tf-s3[*]
 # }
 ```
-# alternativ  value = aws_s3_bucket.*.tf-s3[*] seklinde yazabiliriz yorum satiri yapmak istemiyorsak
+# alternativ  value = aws_s3_bucket.*.tf-s3  yada seklinde yazabiliriz yorum satiri yapmak istemiyorsak
 # bir yerde count varsa orada ${count.index} kullanilmak zorundadir .${count.index + 1} seklinde yazariz 1den baslatmak istersem
+# value = aws_s3_bucket.tf-s3[*]
 ```bash
 terraform plan
 ```

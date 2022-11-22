@@ -153,7 +153,7 @@ provider "aws" {
 }
 
 resource "aws_instance" "tf-ec2" {
-  ami           = "ami-0c02fb55956c7d316"
+  ami           = "ami-0b0dcb5067f052a63"
   instance_type = "t2.micro"
   tags = {
     "Name" = "created-by-tf"
