@@ -16,7 +16,7 @@ provider "aws" {
 resource "aws_instance" "tf-docker-machine" {
   ami             = "ami-0858bef4ba3225b69"
   instance_type   = "t2.micro"
-  key_name        = "aduncan"
+  key_name        = "First_Key"
   //  Write your pem file name
   vpc_security_group_ids = [aws_security_group.tf-docker-sec-gr.id]
   count = 5

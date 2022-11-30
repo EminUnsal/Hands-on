@@ -1,0 +1,59 @@
+
+1.
+terraform plan -out=justs3 Now I have just an S3 bucket in justs3.I saved my plans with -out flag
+terraform apply justs3
+terraform state
+2.
+terraform validate   --- it validates the Terraform files syntactically correct and internally consistent
+terraform fmt        --- it reformat your configuration file in the standard style. indentations vs
+terraform console    --- it provides an interactive command-line  console for evaluating and experimenting with expressions
+```bash
+terraform console
+> aws_instance.tf-ec2
+> aws_instance.tf-ec2.private_ip
+> min (1,2,3)
+> lower("HELLO")                        Built-in Functions
+> file("${path.module}/cloud")
+> aws_s3_bucket.tf-s3
+> aws_s3_bucket.tf-s3.bucket
+
+terraform show          --- it is more readable than terraform.tfstate
+terraform state show  aws_instance.ec2
+terraform graph         --- it creates a visual graph of Terraform resources
+terraform output        --- 
+terraform output -json 
+terraform output <output-name>
+terraform output -raw <output-name>
+
+terraform apply -refresh-only  ---it is used to update the state file with the real-world infrastructure.sadece state'i duzeltiyor
+terraform apply -refresh=false  ---- it applies configuration without refresh
+
+output 'tf-example-s3'{
+	value = aws_s3_bucket.tf-s3[*]
+
+terraform plan -var="s3_bucket_name=mehmet-new-s3-bucket-2" it can define variables with '-var' command 
+or
+export TF_VAR_s3_bucket_name=mehmet-env-varible-bucket
+or
+
+Name of file must be terraform.tfvars  
+ but i want to use  oliver.tfvars        terraform plan --var-file=oliver.tfvars or file name must be oliver.auto.tfvars
+
+local
+
+count
+aws_s3_bucket.tf-s3[count.index]         ${count.index +1}
+conditions
+var.example != "" ? var.example  : "default-a"
+count = var.num_of_buckets != 0 ? var.num_of_buckets : 3
+
+
+for_each
+for_each= toset(var.users)
+name= each.value
+count-->count.index
+for_each-->toset-->each.value or key
+
+
+
+
