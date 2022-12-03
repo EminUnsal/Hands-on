@@ -13,13 +13,15 @@ At the end of the this hands-on training, students will be able to;
 ## Outline
 
 - Part 1 - Terraform Data Sources
+
 - Part 2 - Remote Backend
+
 - Part 3 - Terraform Provisioners
 
 ## Part 1 - Terraform Data Sources
-## Data Sources Block datalari filtreledigimiz kisimlar. Bir web sitesinde urunleri filtrelemek gibi.Terraform Output Block ise bizim kisitladigimiz datalar yani  bize gelen filtrelenmis urunler diyebiliriz.
 
 - `Data sources` allow data to be fetched or computed for use elsewhere in Terraform configuration.
+
 - Go to the `AWS console and create an image` from your EC2. Select your instance and from actions click image and templates and then give a name for ami `my-ami` and click create. 
 
 # It will take some time. go to the next steps.
@@ -41,7 +43,7 @@ terraform {
 }
 
 locals {
-  mytag = "mehmet-local-name"
+  mytag = "clarusway-local-name"
 }
 
 data "aws_ami" "tf_ami" {
@@ -61,7 +63,7 @@ variable "ec2_type" {
 resource "aws_instance" "tf-ec2" {
   ami           = data.aws_ami.tf_ami.id
   instance_type = var.ec2_type
-  key_name      = "First_Key"
+  key_name      = "aduncan"
   tags = {
     Name = "${local.mytag}-this is from my-ami"
   }
@@ -143,7 +145,7 @@ resource "aws_dynamodb_table" "tf-remote-state-lock" {
     name = "LockID"
     type = "S"
   }
-  billing_mode = "PAY_PER_REQUEST" # PROVISIONED on-odeme demek
+  billing_mode = "PAY_PER_REQUEST"
 }
 ```
 

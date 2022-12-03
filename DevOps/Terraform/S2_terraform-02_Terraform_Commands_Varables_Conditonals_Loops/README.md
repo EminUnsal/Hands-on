@@ -43,14 +43,14 @@ terraform {
 resource "aws_instance" "tf-ec2" {
   ami           = "ami-0ed9277fb7eb570c9"
   instance_type = "t2.micro"
-  key_name      = "First_Key"    # write your pem file without .pem extension>
+  key_name      = "oliver"    # write your pem file without .pem extension>
   tags = {
     "Name" = "tf-ec2"
   }
 }
 
 resource "aws_s3_bucket" "tf-s3" {
-  bucket = "mehmet-tf-test-bucket-addwhateveryouwant"
+  bucket = "oliver-tf-test-bucket-addwhateveryouwant"
 }
 ```
 
@@ -121,7 +121,7 @@ terraform fmt
 
 ### terraform console
 
-- Go to the terminal and run `terraform console`.(bu komutu kullanmak icin ortamdan .tfstate dosyasi olmasi lazim.)This command provides an interactive command-line console for evaluating and experimenting with expressions. This is useful for testing interpolations before using them in configurations, and for interacting with any values currently saved in state. You can see the attributes of resources in tfstate file and check built in functions before you write in your configuration file. 
+- Go to the terminal and run `terraform console`.This command provides an interactive command-line console for evaluating and experimenting with expressions. This is useful for testing interpolations before using them in configurations, and for interacting with any values currently saved in state. You can see the attributes of resources in tfstate file and check built in functions before you write in your configuration file. 
 
 - Lets create a file under the terraform-aws directory and name it `cloud` and paste `hello devops engineers`.
 
@@ -142,7 +142,7 @@ terraform console
 > aws_s3_bucket.tf-s3.bucket
 > exit or (ctrl+c)
 ```
-# https://developer.hashicorp.com/terraform/language/functions daha fazla gomulu fonktion icin buraya bak
+
 ### show command.
 
 - Go to the terminal and run `terraform show`.
@@ -182,15 +182,13 @@ output "tf_example_s3_meta" {
 ```bash
 terraform apply
 terraform output
-terraform output -json # output'u json formatinda yazdiriyoruz
-terraform output tf_example_public_ip #sadece istedigimiz ciktiyi cekiyoruz
-terraform output -raw tf_example_public_ip # ciktinin etrafindaki kesme isaretlerini kaldiriyor.
+terraform output -json
+terraform output tf_example_public_ip
 ```
 
 ### terraform apply -refresh-only command.
 
-- The `terraform apply -refresh-only` command is used to update the state file with the real-world infrastructure. This can be used to detect any drift from the last-known state, and to update the state file. First, check the current state of your resources with `terraform state list`. Then go to the AWS console and delete your S3 bucket `mehmet-tf-test-bucket-addwhateveryouwant`. Display the state list again and refresh the state. Run the following commands. 
-# birisi manuel olarak resource silerse,state'i guncellemek icin bu komutu kullaniriz
+- The `terraform apply -refresh-only` command is used to update the state file with the real-world infrastructure. This can be used to detect any drift from the last-known state, and to update the state file. First, check the current state of your resources with `terraform state list`. Then go to the AWS console and delete your S3 bucket `oliver-tf-test-bucket-addwhateveryouwant`. Display the state list again and refresh the state. Run the following commands.
 
 ```bash
 $ terraform state list
@@ -232,8 +230,8 @@ resource "aws_instance" "tf-ec2" {
 }
 
 resource "aws_s3_bucket" "tf-s3" {
-  bucket = "mehmet-tf-bucket-addwhateveryouwant-new"
-  #bucket = "mehmet-tf-bucket-addwhateveryouwant"
+  bucket = "oliver-tf-bucket-addwhateveryouwant-new"
+  #bucket = "oliver-tf-bucket-addwhateveryouwant"
 }
 ```
 
@@ -252,9 +250,7 @@ output "tf_example_private_ip" {
 ```
 
 - Run the command `terraform apply -refresh=false`.
-# mesela 100 tane resourcelerim var . ve sadece basit birsey degistirdim veya degistirdigim 
-# seyden eminim. ama apply komutunu kullandigimda butun resourceleri refresh yapiyor .refresh 
-# kismini atlayarak apply yapmasini istersem bu komutu kullaniyorum.zamandan tasarruf yapilir
+
 ```bash
 $ terraform apply -refresh=false
 
@@ -309,7 +305,7 @@ terraform {
 }
 
 variable "ec2_name" {
-  default = "mehmet-ec2"
+  default = "oliver-ec2"
 }
 
 variable "ec2_type" {
@@ -330,7 +326,7 @@ resource "aws_instance" "tf-ec2" {
 }
 
 variable "s3_bucket_name" {
-  default = "mehmet-s3-bucket-variable-addwhateveryouwant"
+  default = "oliver-s3-bucket-variable-addwhateveryouwant"
 }
 
 resource "aws_s3_bucket" "tf-s3" {
@@ -368,7 +364,7 @@ terraform apply
 
 ```go
 variable "s3_bucket_name" {
-#   default     = "mehmet-new-s3-bucket-addwhateveryouwant"
+#   default     = "oliver-new-s3-bucket-addwhateveryouwant"
 }
 ```
 
@@ -389,7 +385,7 @@ terraform plan
 - You can define variables with `-var` command
 
 ```bash
-terraform plan -var="s3_bucket_name=mehmet-new-s3-bucket-2"
+terraform plan -var="s3_bucket_name=oliver-new-s3-bucket-2"
 ```
 
 #### environment variables
@@ -399,15 +395,14 @@ terraform plan -var="s3_bucket_name=mehmet-new-s3-bucket-2"
 - You can also define variable with environment variables that begin with `TF_VAR_`.
 
 ```bash
-export TF_VAR_s3_bucket_name=mehmet-env-varible-bucket
+export TF_VAR_s3_bucket_name=oliver-env-varible-bucket
 terraform plan
 ```
 
 #### In variable definitions (.tfvars)
 
 - Create a file name `terraform.tfvars`. Add the followings.
-# ortamda bir variable dosyasi varsa olusturabiliriz sadece terraform.tfvars dosyasini..
-# dosya ismi bu sekilde olmasi lazim.dosyanin ismi 'terraform' ise otomatik alir
+
 ```go
 s3_bucket_name = "tfvars-bucket"
 ```
@@ -418,21 +413,22 @@ s3_bucket_name = "tfvars-bucket"
 terraform plan
 ```
 
-- Create a file name `mehmet.tfvars`. Add the followings.
+- Create a file name `oliver.tfvars`. Add the followings.
+
 ```go
-s3_bucket_name = "mehmet-tfvar-bucket"
+s3_bucket_name = "oliver-tfvar-bucket"
 ```
 
 - Run the command below.
 
 ```bash
-terraform plan --var-file="mehmet.tfvars"
+terraform plan --var-file="oliver.tfvars"
 ```
 
-- Create a file named `mehmet.auto.tfvars`. Add the followings.
-# eger ortamda benim olusturdugum variable dosyasini default olarak almasini istersem .auto.tfvars adinda dosya olusturuyorum
+- Create a file named `oliver.auto.tfvars`. Add the followings.
+
 ```go
-s3_bucket_name = "mehmet-auto-tfvar-bucket"
+s3_bucket_name = "oliver-auto-tfvar-bucket"
 ```
 
 ```bash
@@ -460,9 +456,8 @@ terraform apply
 - Make the changes in the `main.tf` file.
 
 ```go
-
 locals {
-  mytag = "mehmet-local-name"
+  mytag = "oliver-local-name"
 }
 
 resource "aws_instance" "tf-ec2" {
@@ -526,9 +521,7 @@ resource "aws_s3_bucket" "tf-s3" {
 #   value = aws_s3_bucket.tf-s3[*]
 # }
 ```
-# alternativ  value = aws_s3_bucket.*.tf-s3  yada seklinde yazabiliriz yorum satiri yapmak istemiyorsak
-# bir yerde count varsa orada ${count.index} kullanilmak zorundadir .${count.index + 1} seklinde yazariz 1den baslatmak istersem
-# value = aws_s3_bucket.tf-s3[*]
+
 ```bash
 terraform plan
 ```
@@ -542,7 +535,7 @@ terraform apply
 ### Conditional Expressions
 
 - A conditional expression uses the value of a boolean expression to select one of two values.
-https://developer.hashicorp.com/terraform/language/expressions/conditionals
+
 - Go to the `main.tf` file, make the changes in order.
 
 ```go

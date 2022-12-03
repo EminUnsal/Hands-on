@@ -40,7 +40,7 @@ Resources:
   DockerMachine1:
     Type: AWS::EC2::Instance
     Properties:
-      ImageId: ami-05fa00d4c63e32376
+      ImageId: ami-0858bef4ba3225b69
       InstanceType: t2.micro
       KeyName: !Ref KeyPairName
       SecurityGroupIds:
@@ -52,7 +52,7 @@ Resources:
   DockerMachine2:
     Type: AWS::EC2::Instance
     Properties:
-      ImageId: ami-05fa00d4c63e32376
+      ImageId: ami-0858bef4ba3225b69
       InstanceType: t2.micro
       KeyName: !Ref KeyPairName
       SecurityGroupIds:
@@ -64,7 +64,7 @@ Resources:
   DockerMachine3:
     Type: AWS::EC2::Instance
     Properties:
-      ImageId: ami-05fa00d4c63e32376
+      ImageId: ami-0858bef4ba3225b69
       InstanceType: t2.micro
       KeyName: !Ref KeyPairName
       SecurityGroupIds:
@@ -74,9 +74,9 @@ Resources:
           Key: Name
           Value: !Sub Docker Machine 3rd of ${AWS::StackName} 
   DockerMachine4:
-    Type: ami-05fa00d4c63e32376
+    Type: AWS::EC2::Instance
     Properties:
-      ImageId: ami-090fa75af13c156b4
+      ImageId: ami-0858bef4ba3225b69
       InstanceType: t2.micro
       KeyName: !Ref KeyPairName
       SecurityGroupIds:
@@ -88,7 +88,7 @@ Resources:
   DockerMachine5:
     Type: AWS::EC2::Instance
     Properties:
-      ImageId: ami-05fa00d4c63e32376
+      ImageId: ami-0858bef4ba3225b69
       InstanceType: t2.micro
       KeyName: !Ref KeyPairName
       SecurityGroupIds:

@@ -126,8 +126,6 @@ mkdir terraform-aws && cd terraform-aws && touch main.tf
 
 - Create a file named `main.tf` for the configuration code and copy and paste the following content. 
 
- # wenn man die Codes farbieren lassen will,dann installiere 'HashiCorp Terraform' Extencion auf dem rechten Manu
-
 ```t
 terraform {
   required_providers {
@@ -135,25 +133,18 @@ terraform {
       source = "hashicorp/aws"
       version = "4.8.0"
     }
-  # wenn man noch andere Terraform-Anbieter hinzufugen will,musst man hier schreiben
-  # azure
   }
-  # backend must be specified here 
 }
 
 provider "aws" {
-  # here region musst be specified
   region  = "us-east-1"
-  # access key and secret key can be entered here
   # access_key = "my-access-key"
   # secret_key = "my-secret-key"
   ## profile = "my-profile"
-   
-  
 }
 
 resource "aws_instance" "tf-ec2" {
-  ami           = "ami-0b0dcb5067f052a63"
+  ami           = "ami-0c02fb55956c7d316"
   instance_type = "t2.micro"
   tags = {
     "Name" = "created-by-tf"
@@ -200,10 +191,9 @@ Initializing provider plugins...
 
 Terraform has been successfully initialized!
 
-# terraform init'den sonra .terraform.lock.hcl dosyasi olusuyor ve bu versionu kitliyor .egerki versionu duzeltmek istiyorsak terraform init upgrade kodunu kullaniyoruz
-
 You may now begin working with Terraform. Try running "terraform plan" to see
-any changes that are required for your infrastructure. All Terraform commands should now work.
+any changes that are required for your infrastructure. All Terraform commands
+should now work.
 
 If you ever set or change modules or backend configuration for Terraform,
 rerun this command to reinitialize your working directory. If you forget, other
@@ -216,7 +206,7 @@ Terraform downloads the `aws` provider and installs it in a hidden subdirectory 
 
 ### Create infrastructure
 
-- Run `terraform plan`. You should see an output similar to the one shown below. # bu kodu yazdiktan sonra 
+- Run `terraform plan`. You should see an output similar to the one shown below.
 
 ```bash
 terraform plan
@@ -338,8 +328,6 @@ Apply complete! Resources: 1 added, 0 changed, 0 destroyed.
 ```
 
 - Visit the EC2 console to see the created EC2 instance.
-# terraform.tfstate dosyasinda guncel hali duruyor infrastructure'in.
-# terraform.tfstate.backup'da bir onceki hali duruyor infrastructure'in
 
 ### Inspect state
 
@@ -353,7 +341,6 @@ Apply complete! Resources: 1 added, 0 changed, 0 destroyed.
 terraform state list
 aws_instance.tf-ec2
 ```
-# terraform plan ile de gercek durumunu altyapimizin check edebiliriz, terraform reflesh gibi bir ozelligi var
 
 ### Creating a AWS S3 bucket
 
