@@ -16,16 +16,16 @@ data "aws_caller_identity" "current" {}
 data "aws_region" "current" {}
 
 variable "key-name" {
-  default = "oliver"   # change here
+  default = "Firs_Key"   # change here
 }
 
 locals {
-  name = "oliver"   # change here, optional
+  name = "mehmet"   # change here, optional
 }
 
 resource "aws_instance" "master" {
   ami                  = "ami-04505e74c0741db8d"
-  instance_type        = "t3a.medium"
+  instance_type        = "t2.micro"
   key_name             = var.key-name
   iam_instance_profile = aws_iam_instance_profile.ec2connectprofile.name
   security_groups      = ["${local.name}-k8s-master-sec-gr"]
@@ -37,7 +37,7 @@ resource "aws_instance" "master" {
 
 resource "aws_instance" "worker" {
   ami                  = "ami-04505e74c0741db8d"
-  instance_type        = "t3a.medium"
+  instance_type        = "t2.micro"
   key_name             = var.key-name
   iam_instance_profile = aws_iam_instance_profile.ec2connectprofile.name
   security_groups      = ["${local.name}-k8s-master-sec-gr"]
