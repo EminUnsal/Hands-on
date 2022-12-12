@@ -1,4 +1,4 @@
-# Hands-on Kubernetes-05 : Managing Secrets and ConfigMaps
+# Hands-on Kubernetes-05-a : Managing Secrets and ConfigMaps
 
 Purpose of the this hands-on training is to give students the knowledge of Kubernetes Secrets and config-map
 
@@ -110,7 +110,7 @@ password.txt:    12 bytes
 username.txt:    5 bytes
 ```
 
-### Creating a Secret manually 
+### Creating a Secret manually
 
 - You can also create a Secret in a file first, in JSON or YAML format, and then create that object. The name of a Secret object must be a valid DNS subdomain name. The Secret contains two maps: data and stringData. The data field is used to store arbitrary data, encoded using base64. The stringData field is provided for convenience, and allows you to provide secret data as unencoded strings.
 
@@ -201,11 +201,52 @@ echo 'MWYyZDFlMmU2N2Rm' | base64 --decode
 1f2d1e2e67df
 ```
 
-### Using Secrets 
+### Using Secrets
 
-- This is an example of a Pod that uses secrets from environment variables:
+- Firstly we get the parameters as plain environment variable.
 
-- mysecret-pod.yaml
+- Create a file named `mysecret-pod.yaml`.
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: secret-env-pod
+spec:
+  containers:
+  - name: mycontainer
+    image: redis
+    env:
+      - name: SECRET_USERNAME
+        value: admin
+      - name: SECRET_PASSWORD
+        value: 1f2d1e2e67df
+  restartPolicy: Never
+```
+
+- Create the pod.
+
+```bash
+kubectl apply -f mysecret-pod.yaml
+```
+
+- Connect the pod and check the environment variables.
+
+```bash
+kubectl exec -it secret-env-pod -- bash
+root@secret-env-pod:/data# echo $SECRET_USERNAME
+admin
+root@secret-env-pod:/data# echo $SECRET_PASSWORD
+1f2d1e2e67df
+```
+
+- Delete the pod.
+
+```bash
+kubectl delete -f mysecret-pod.yaml
+```
+
+- This time we get the environment variables from secret objects. Modify the mysecret-pod.yaml as below.
 
 ```yaml
 apiVersion: v1
@@ -230,7 +271,7 @@ spec:
   restartPolicy: Never
 ```
 
-- Create the pod.
+- Update the pod.
 
 ```bash
 kubectl apply -f mysecret-pod.yaml
@@ -356,9 +397,9 @@ Now delete what we have created.
 kubectl delete -f k8s
 ```
 
-- We have modified the application to take the greeting message as a parameter (environmental variable). So we will expose configuration data into the container’s environmental variables. Firstly, let's see how to pass environment variables to pods. 
+- We have modified the application to take the greeting message as a parameter (environmental variable). So we will expose configuration data into the container’s environmental variables. Firstly, let's see how to pass environment variables to pods.
 
-The modified `deployment.yaml` file.
+- Modify the `deployment.yaml` as below.
 
 ```yaml
 apiVersion: apps/v1
@@ -377,62 +418,45 @@ spec:
     spec:
       containers:
         - name:  demo
-          image: clarusway/demo:hello-config-args
-          imagePullPolicy: Always
-          args:
-            - "-greeting"
-            - "$(GREETING)"
+          image: clarusway/demo:hello-config-env
           ports:
             - containerPort: 8888
           env:
             - name: GREETING
-              value: selam 
+              value: selam
 ```
 
-Apply `kubectl` to these files.
+- Now apply `kubectl` to these files.
 
 ```bash
-kubectl apply -f deployment.yaml  
-kubectl apply -f  service.yaml
+kubectl apply -f k8s
 ```
-- Check the output on your browser. 
+
+Let's see the message.
+
+```bash
+kubectl get svc demo-service -o wide
+NAME           TYPE           CLUSTER-IP    EXTERNAL-IP   PORT(S)        AGE     SELECTOR
+demo-service   LoadBalancer   10.97.39.39   <pending>     80:30001/TCP   2m20s   app=demo
+
+curl < worker-ip >:30001
+selam, Clarusway!
+```
+This is the default container behaviour.
+
+Now delete what we have created.
+
+```bash
+kubectl delete -f k8s
+```
+
+- Delete the deployment.
+
+```bash
+kubectl delete -f deployment.yaml
+```
 
 - This time we will expose configuration data into the container’s environmental variables. And,  we will create `ConfigMap` and use the `greeting` key-value pair as in the `deployment.yaml` file.
-
-The modified `deployment.yaml` file.
-
-```yaml
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: demo
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: demo
-  template:
-    metadata:
-      labels:
-        app: demo
-    spec:
-      containers:
-        - name:  demo
-          image: clarusway/demo:hello-config-args
-          imagePullPolicy: Always
-          args:
-            - "-greeting"
-            - "$(GREETING)"
-          ports:
-            - containerPort: 8888
-          env:
-            - name: GREETING
-              valueFrom:
-                configMapKeyRef:
-                  name: demo-config
-                  key: greeting
-```
-Note the application run parameter (`args`) and `ConfigMap` reference in container section.
 
 ## Create and use ConfigMaps with `kubectl create configmap` command
 
@@ -468,30 +492,7 @@ metadata:
   uid: 9673e114-3bbe-43e5-9e88-b3478ccc0794
 ```
 
-- Apply `kubectl` to these files.
-
-```bash
-kubectl apply -f deployment.yaml  
-kubectl apply -f  service.yaml
-```
-
-- List the services.
-
-```bash
-kubectl get svc -o wide
-NAME           TYPE           CLUSTER-IP     EXTERNAL-IP   PORT(S)        AGE   SELECTOR
-demo-service   LoadBalancer   10.97.162.15   <pending>     80:30001/TCP   15s   app=demo
-kubernetes     ClusterIP      10.96.0.1      <none>        443/TCP        46d   <none>
-```
-
-- See the message.
-
-```bash
-curl < worker-ip >:30001
-Halo, Clarusway!
-```
-
-- Reset what we have created.
+- Delete the ConfigMap.
 
 ```bash
 kubectl get cm
@@ -499,213 +500,11 @@ NAME          DATA   AGE
 demo-config   1      15m
 
 kubectl delete cm demo-config 
-kubectl delete -f service.yaml
-kubectl delete -f deployment.yaml
 ```
 
-### From a config file
+## Creating a ConfigMap manually
 
-- We will write the greeting key-value pair in a file in Norvegian and create the ConfigMap from this file.
-
-```bash
-echo "greeting: Hei" > config
-```
-
-Note that, the comman notation used in key-value pairs is to use `key= value` notation, but this is not an obligatory. The notation actualy depends on the applicaton implementation that will parse and use these files.
-
-- Look at the other example files that look like below
-
-```bash
-ls 
-game.properties
-ui.properties
-
-cat game.properties
-enemies=aliens
-lives=3
-enemies.cheat=true
-enemies.cheat.level=noGoodRotten
-secret.code.passphrase=UUDDLRLRBABAS
-secret.code.allowed=true
-secret.code.lives=30
-
-cat ui.properties
-color.good=purple
-color.bad=yellow
-allow.textmode=true
-how.nice.to.look=fairlyNice
-```
-
-- Let's create our configmap from `config` file.
-
-```bash
-kubectl create configmap demo-config --from-file=./config
-```
-
-- Check the content of the `configmap/demo-config`.
-
-```json
-kubectl get  configmap/demo-config -o json
-{
-    "apiVersion": "v1",
-    "data": {
-        "config": "greeting: Hei\n"
-    },
-    "kind": "ConfigMap",
-    "metadata": {
-        "creationTimestamp": "2021-10-06T13:04:14Z",
-        "name": "demo-config",
-        "namespace": "default",
-        "resourceVersion": "40173",
-        "uid": "8bbeed1d-d516-4db8-b50e-c0fdb7f4f0c2"
-    }
-}
-```
-
-We have modifed our application to read parameters from the file. So the `deployment` file changed as follows:
-
-```yaml
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: demo
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: demo
-  template:
-    metadata:
-      labels:
-        app: demo
-    spec:
-      containers:
-        - name:  demo
-          image: clarusway/demo:hello-config-file
-          ports:
-            - containerPort: 8888
-          volumeMounts:
-          - mountPath: /config/
-            name: demo-config-volume
-            readOnly: true
-      volumes:
-      - name: demo-config-volume
-        configMap:
-          name: demo-config
-          items:
-          - key: config
-            path: demo.yaml
-```
-
-- Volume and volume mounting are common ways to place config files inside a container. We are selecting `config` key from `demo-config` ConfigMap and put it inside the container at path `/config/` with the name `demo.yaml`.
-
-- Apply and run all the configurations as follow:
-
-```bash
-kubectl apply -f deployment.yaml
-
-kubectl get po
-NAME                   READY   STATUS    RESTARTS   AGE
-demo-77496d887-rhkww   1/1     Running   0          4s
-
-kubectl apply -f service.yaml 
-
-kubectl get svc -o wide
-NAME           TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)        AGE   SELECTOR
-demo-service   NodePort    10.108.181.197   <none>        80:30001/TCP   11s   app=demo
-kubernetes     ClusterIP   10.96.0.1        <none>        443/TCP        14h   <none>
-
-curl < worker-ip >:30001
-Hei, Clarusway!
-```
-
-- Reset what we have created.
-
-```bash
-kubectl get cm
-kubectl delete cm demo-config 
-kubectl delete -f service.yaml
-kubectl delete -f deployment.yaml
-```
-
-## From a ConfigMap YAML file
-
-- This has the same steps and configuration with the `From a config file`
-
-- configmap.yaml
-
-```yaml
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: demo-config
-data:
-  config: |
-    greeting: Buongiorno
-```
-
-- Modifiy the `deployment.yaml` file as below. Note the greeting message is changed.
-
-```yaml
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: demo
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: demo
-  template:
-    metadata:
-      labels:
-        app: demo
-    spec:
-      containers:
-        - name:  demo
-          image: clarusway/demo:hello-config-file
-          ports:
-            - containerPort: 8888
-          volumeMounts:
-          - mountPath: /config/
-            name: demo-config-volume
-            readOnly: true
-      volumes:
-      - name: demo-config-volume
-        configMap:
-          name: demo-config
-          items:
-          - key: config
-            path: demo.yaml
-```
-
-- `Service` is the same.
-
-```bash
-kubectl apply -f configmap.yaml
-kubectl apply -f deployment.yaml
-kubectl apply -f service.yaml
-kubectl get po
-NAME                   READY   STATUS    RESTARTS   AGE
-demo-77496d887-bljb8   1/1     Running   0          12s
-kubectl get svc -o wide
-NAME           TYPE           CLUSTER-IP       EXTERNAL-IP   PORT(S)        AGE   SELECTOR
-demo-service   LoadBalancer   10.107.176.127   <pending>     80:30001/TCP   16s   app=demo
-kubernetes     ClusterIP      10.96.0.1        <none>        443/TCP        46d   <none>
-curl < worker-ip >:30001
-Buongiorno, Clarusway!
-```
-
-- Reset what we have created.
-```bash
-kubectl delete cm demo-config 
-kubectl delete -f service.yaml
-kubectl delete -f deployment.yaml
-```
-
-## Configure all key-value pairs in a ConfigMap as container environment variables
-
-- We will update the `configmap.yaml` as follows:
+- We will create the `configmap.yaml` as follows:
 
 ```yaml
 apiVersion: v1
@@ -746,7 +545,7 @@ spec:
                   key: greeting
 ```
 
-Note that this time, we are not placing the `GREETING` as run arguments. This time we will inject this variable as `environment variable`.
+- Create the objects.
 
 ```bash
 kubectl apply -f k8s
@@ -841,6 +640,131 @@ Everything works fine!
 kubectl delete -f k8s
 ```
 
+### From a config file
+
+- We will write the greeting key-value pair in a file in Norwegian and create the ConfigMap from this file.
+
+```bash
+echo "greeting: Hei" > config
+```
+
+Note that, the comman notation used in key-value pairs is to use `key= value` notation, but this is not an obligatory. The notation actualy depends on the applicaton implementation that will parse and use these files.
+
+- Let's create our configmap from `config` file.
+
+```bash
+kubectl create configmap demo-config --from-file=./config
+```
+
+- Check the content of the `configmap/demo-config`.
+
+```json
+kubectl get  configmap/demo-config -o json
+{
+    "apiVersion": "v1",
+    "data": {
+        "config": "greeting: Hei\n"
+    },
+    "kind": "ConfigMap",
+    "metadata": {
+        "creationTimestamp": "2021-10-06T13:04:14Z",
+        "name": "demo-config",
+        "namespace": "default",
+        "resourceVersion": "40173",
+        "uid": "8bbeed1d-d516-4db8-b50e-c0fdb7f4f0c2"
+    }
+}
+```
+
+- Delete the ConfigMap.
+
+```bash
+kubectl get cm
+NAME          DATA   AGE
+demo-config   1      15m
+
+kubectl delete cm demo-config 
+```
+
+## Using ConfigMaps as files from a Pod 
+
+- Update the `configmap.yaml`.
+
+```yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: demo-config
+data:
+  config: |
+    greeting: Buongiorno
+```
+
+- We have modifed our application to read parameters from the file. So the `deployment` file changed as follows:
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: demo
+  template:
+    metadata:
+      labels:
+        app: demo
+    spec:
+      containers:
+        - name:  demo
+          image: clarusway/demo:hello-config-file
+          ports:
+            - containerPort: 8888
+          volumeMounts:
+          - mountPath: /config/
+            name: demo-config-volume
+            readOnly: true
+      volumes:
+      - name: demo-config-volume
+        configMap:
+          name: demo-config
+          items:
+          - key: config
+            path: demo.yaml
+```
+
+- Volume and volume mounting are common ways to place config files inside a container. We are selecting `config` key from `demo-config` ConfigMap and put it inside the container at path `/config/` with the name `demo.yaml`.
+
+- Apply and run all the configurations as follow:
+
+```bash
+kubectl apply -f deployment.yaml
+
+kubectl get po
+NAME                   READY   STATUS    RESTARTS   AGE
+demo-77496d887-rhkww   1/1     Running   0          4s
+
+kubectl apply -f service.yaml 
+
+kubectl get svc -o wide
+NAME           TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)        AGE   SELECTOR
+demo-service   NodePort    10.108.181.197   <none>        80:30001/TCP   11s   app=demo
+kubernetes     ClusterIP   10.96.0.1        <none>        443/TCP        14h   <none>
+
+curl < worker-ip >:30001
+Buongiorno, Clarusway!
+```
+
+- Reset what we have created.
+
+```bash
+kubectl get cm
+kubectl delete cm demo-config 
+kubectl delete -f service.yaml
+kubectl delete -f deployment.yaml
+```
 
 ### Optional
 
