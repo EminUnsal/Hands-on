@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mehmet-deploy
+  labels:
+    app: container-info
+  annotations:
+    kubernetes.io/change-cause: deploy/clarus-deploy is set as container-info=clarusway/container-info:1.0
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: pod-etiket
+  template:
+    metadata:
+      labels:
+        app: pod-etiket
+    spec:
+      containers:
+      - name: mehmet-pod
+        image: clarusway/container-info:1.0
+        ports:
+        - containerPort: 80
+        resources:
+          

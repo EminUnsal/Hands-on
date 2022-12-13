@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: ilkreplicaadi
+  labels:
+    env: dev
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: yenietiket
+  template:
+    metadata:
+      labels:
+        app: yenietiket
+    spec:
+      containers:
+        - name: konteyniradi
+          image: nginx
+          ports:
+            - containerPort: 80
+          resources:
+      

@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deploy
+  labels:
+    env: test
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: etiket-rs
+  template:
+    metadata:
+      labels:
+        app: etiket-rs
+    spec:
+      containers:
+      - name: nginx-pod
+        image: nginx
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 80

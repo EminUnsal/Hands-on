@@ -24,7 +24,7 @@ locals {
 }
 
 resource "aws_instance" "master" {
-  ami                  = "ami-04505e74c0741db8d"
+  ami                  = "ami-0a6b2839d44d781b2"
   instance_type        = "t3a.medium"
   key_name             = var.key-name
   iam_instance_profile = aws_iam_instance_profile.ec2connectprofile.name
@@ -36,8 +36,11 @@ resource "aws_instance" "master" {
 }
 
 resource "aws_instance" "worker" {
-  ami                  = "ami-04505e74c0741db8d"
+  ami                  = "ami-0a6b2839d44d781b2"
   instance_type        = "t3a.medium"
+  # root_block_device {
+  #   volume_size = 16
+  # }
   key_name             = var.key-name
   iam_instance_profile = aws_iam_instance_profile.ec2connectprofile.name
   security_groups      = ["${local.name}-k8s-master-sec-gr"]
@@ -49,12 +52,12 @@ resource "aws_instance" "worker" {
 }
 
 resource "aws_iam_instance_profile" "ec2connectprofile" {
-  name = "ec2connectprofile"
+  name = "ec2connectprofile-josh"
   role = aws_iam_role.ec2connectcli.name
 }
 
 resource "aws_iam_role" "ec2connectcli" {
-  name = "ec2connectcli"
+  name = "ec2connectcli-josh"
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [

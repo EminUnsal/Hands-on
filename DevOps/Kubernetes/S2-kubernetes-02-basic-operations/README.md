@@ -399,6 +399,8 @@ kubectl rollout history deploy clarus-deploy --revision=1
 kubectl set image deploy clarus-deploy container-info=clarusway/container-info:2.0
 ```
 
+kubectl annotate -f clarus-deploy.yaml --overwrite kubernetes.io/change-cause="deploy/clarus-deploy is set as container-info=clarusway/container-info:2.0"
+
 - Show the rollout history.
 
 ```bash
@@ -464,7 +466,7 @@ kubectl rollout history deploy clarus-deploy
 - Display details about the revisions.
 
 ```bash
-kubectl rollout history deploy clarus-deploy --revision=1
+kubectl rollout history deploy clarus-deploy --revision=1 # VERSION GECMISINI GORMEK ICIN
 kubectl rollout history deploy clarus-deploy --revision=2
 kubectl rollout history deploy clarus-deploy --revision=3
 ```
@@ -480,7 +482,7 @@ kubectl get deploy,rs,po -l app=container-info
 - Rollback to `revision 1`.
 
 ```bash
-kubectl rollout undo deploy clarus-deploy --to-revision=1
+kubectl rollout undo deploy clarus-deploy --to-revision=1   # ESKI VERSIONA GECMEK ISTENDIGINDE
 ```
 
 - Show the rollout history and show that we have revision 2, 3 and 4. Explain that original revision, which is `revision 1`, becomes `revision 4`.

@@ -106,12 +106,12 @@ spec:
   selector:  
     matchLabels:
       app: web-flask
-  minReadySeconds: 10 
+  minReadySeconds: 10           # Pod hazir olana kadar 10 sn bekle
   strategy:
-    type: RollingUpdate 
-    rollingUpdate:
-      maxUnavailable: 1 
-      maxSurge: 1 
+    type: RollingUpdate         # Alternativelly Recreate
+    rollingUpdate:               
+      maxUnavailable: 1          # Precentage %10,%25
+      maxSurge: 1                # Surge=islemdeki,ameliyattaki
   template: 
     metadata:
       labels:
@@ -420,7 +420,7 @@ metadata:
   name: web-flask-deploy
   labels:
     app: web-flask
-  namespace: demo
+  namespace: demo   #**********
 spec:
   replicas: 3
   selector:
@@ -451,7 +451,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: web-flask-svc
-  namespace: demo
+  namespace: demo         #**************
   labels:
     app: web-flask
 spec:
