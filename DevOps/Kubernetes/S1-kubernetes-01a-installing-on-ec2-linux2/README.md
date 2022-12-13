@@ -73,7 +73,7 @@ At the end of the this hands-on training, students will be able to;
 >
 > ```bash
 > free -m
-> sudo swapoff -a && sudo sed -i '/ swap / s/^/#/' /etc/fstab
+> sudo swapoff -a && sudo sed -i '/ swap / s/^/#/' /etc/fstab #A swap file is a system file that creates temporary storage space on a solid-state drive or hard disk when the system runs low on memory. The file swaps a section of RAM storage from an idle program and frees up memory for other programs.
 > ```
 >
 
@@ -226,6 +226,7 @@ kubectl get pods -n kube-system -o wide
 ```bash
 kubectl get services
 ```
+kubectl api-resource
 
 ## Part 3 - Adding the Slave/Worker Nodes to the Cluster
 
