@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-6gb
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: manual
+  capacity:
+    storage: 6Gi
+  hostPath:
+    path: /home/ubuntu/pv-data

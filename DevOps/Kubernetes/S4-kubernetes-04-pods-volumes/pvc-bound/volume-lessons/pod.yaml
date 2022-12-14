@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-deneme
+  labels:
+    app: etiket
+spec:
+  volumes:
+    - name: depo
+      persistentVolumeClaim:
+        claimName: pvc-deneme
+  containers:
+    - name: nginx-container
+      image: nginx
+      ports:
+        - containerPort: 80
+          name: "http"
+      volumeMounts:
+      - name: depo
+        mountPath: "/usr/share/nginx/html"

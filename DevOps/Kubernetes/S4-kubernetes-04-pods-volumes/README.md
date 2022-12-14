@@ -197,9 +197,9 @@ curl http://localhost/
 - Expose the clarus-pod pod as a new Kubernetes service on master.
 
 ```bash
-kubectl expose pod clarus-pod --port=80 --type=NodePort
+kubectl expose pod clarus-pod --port=80 --type=NodePort 
 ```
-
+# Bir tane NodePort service olusturuyor
 - List the services.
 
 ```bash
