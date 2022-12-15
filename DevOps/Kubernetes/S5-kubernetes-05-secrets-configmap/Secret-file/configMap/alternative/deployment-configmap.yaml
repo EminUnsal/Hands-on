@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: env-config
+spec:
+  selector:
+    matchLabels:
+      app: env-config
+  template:
+    metadata:
+      labels:
+        app: env-config
+    spec:
+      containers:
+      - name: kapsayici
+        image: clarusway/demo:hello-config-env
+        envFrom:
+          - configMapRef:
+              name: demo-config
+        ports:
+        - containerPort: 8888

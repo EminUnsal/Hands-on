@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myapp
+  labels:
+    etiket: deploy-etiket
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      etiket: deploy-etiket
+  template:
+    metadata:
+      labels:
+        etiket: deploy-etiket
+    spec:
+      containers:
+      - name: deneme
+        image: clarusway/demo:hello
+        ports:
+        - containerPort: 8888
