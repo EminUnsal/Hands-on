@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx
+        resources:
+        ports:
+        - containerPort: 80
+        volumeMounts:
+          - name:  special-config-volume
+            mountPath: /special
+            readOnly: true
+      
+      volumes:
+        - name: special-config-volume
+          configMap:
+            name: special-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-svc
+spec:
+  selector:
+    app: nginx
+  ports:
+  - port: 80
+    targetPort: 80
+    nodePort: 30033
+  type: NodePort
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: special-config
+data:
+  RAM: "32GB"
+  CPU: "4Core"
+  DISK: "SSD"
