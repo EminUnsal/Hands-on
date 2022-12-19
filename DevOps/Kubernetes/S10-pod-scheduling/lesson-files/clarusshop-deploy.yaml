@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: clarusshop
+  labels:
+    app: clarusshop
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: clarusshop
+  template:
+    metadata:
+      labels:
+        app: clarusshop
+    spec:
+      containers:
+      - name: clarusshop
+        image: clarusway/clarusshop
+        ports:
+        - containerPort: 80
+        resources:
+          
+      affinity:
+        podAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: tier
+                operator: In
+                values:
+                - db
+            topologyKey: "kubernetes.io/hostname"

@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: clarus-db
+  labels:
+    tier: db
+spec:
+  containers:
+  - name: clarus-db
+    image: clarusway/clarusdb
+    imagePullPolicy: IfNotPresent
+  restartPolicy: Always
