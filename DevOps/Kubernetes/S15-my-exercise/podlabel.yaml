@@ -147,5 +147,5 @@ spec:
     image: nginx:latest
     ports:
     - containerPort: 80
-  nodeSelector:
+  nodeSelector:       ### Nodeselector ile pod'un calismasini istedigim node'u seciyorum
     hddtype: ssd
