@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rcdeployment
+  labels:
+    team: development
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: recreate
+  strategy:
+    type: Recreate # tum mevcutr podlari sil yeni versionu yukle sonra...hardcore migration
+  template:
+    metadata:
+      labels:
+        app: recreate
+    spec:
+      containers:
+      - name: mypod # kubectl set image deployment/rcdeployment mypod=nginx
+        image: httpd
+        ports:
+        - containerPort: 80

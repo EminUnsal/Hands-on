@@ -6,3 +6,5 @@ kubernetes ustunde hersey api-objesidir
 kubectl describe pod firstpod bu bir obejnin detaylarini goruruz
 
 kubectl port-forward pod/multicontainer 8080:80
+
+kubectl set ile  objelerdeki bircok degeri duzeltebiliriz...  
