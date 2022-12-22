@@ -1,0 +1,1 @@
+# Service exposes Endpoints.EPs list IP adresses of Pods which connected Service-object
