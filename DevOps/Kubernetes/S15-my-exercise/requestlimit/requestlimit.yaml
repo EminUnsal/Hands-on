@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    test: requestlimit
+  name: requestlimit
+spec:
+  containers:
+  - name: requestlimit
+    image: ozgurozturknet/stress
+    resources:
+      requests:   #minimum
+        memory: "64M"  # 0.064 GB
+        cpu: "250m"  #0.25 CPU
+      limits:   # maximum
+        memory: "256M"
+        cpu: "0.5" # alternative--> "500m"
+# Belirtilenden fazla memory kullanirsa OOMKilled durumuna gecer. Restart
