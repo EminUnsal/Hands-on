@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hostpath
+spec:
+  selector:
+    matchLabels:
+      app: myapp
+  template:
+    metadata:
+      labels:
+        app: myapp
+    spec:
+      containers:
+      - name: hostpath-exercise
+        image: nginx
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 80
+        volumeMounts:
+          - name:  file-vol
+            mountPath:  /media/index.html
+          - name: dircreate-vol
+            mountPath:  /bar
+          - name:  directory-vol
+            mountPath:  /foo
+      volumes:
+      - name: directory-vol
+        hostPath:
+          path: /tmp
+          type: Directory
+      - name: dircreate-vol
+        hostPath:
+          path: /cache
+          type: DirectoryOrCreate
+      - name: file-vol
+        hostPath:
+          path: /cache/config.json
+          type: FileOrCreate
