@@ -3,14 +3,14 @@ kind: Job
 metadata:
   name: pi
 spec:
-  parallelism: 2
-  completions: 10
-  backoffLimit: 5
-  activeDeadlineSeconds: 100
+  parallelism: 2 # Podlar kacar kacar olusmali ve gorevleri tamamlamali
+  completions: 10 # kac pod olusturulmali
+  backoffLimit: 5 # podlar kac defa fail ederse pod olusturmayi birakma
+  activeDeadlineSeconds: 100 # gorev kac saniye icinde tamamlanmali 
   template:
     spec:
       containers:
       - name: pi
-        image: perl
+        image: perl:latest
         command: ["perl",  "-Mbignum=bpi", "-wle", "print bpi(2000)"]
       restartPolicy: Never #OnFailure 
