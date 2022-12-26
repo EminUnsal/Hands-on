@@ -1,4 +1,4 @@
-apiVersion: batch/v1beta1 # not stable until kubernetes 1.21.
+apiVersion: batch/v1 # not stable until kubernetes 1.21.
 kind: CronJob
 metadata:
   name: hello

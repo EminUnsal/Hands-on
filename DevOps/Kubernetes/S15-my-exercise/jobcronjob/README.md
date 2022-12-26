@@ -1,4 +1,3 @@
-# Bazi uygulamalar isini yapip kapanmasi gerekir.Replicaset,Deployment,StatefulSet,DeamonSet hepsinde silinen pod tekrar otomatik baslar.Deploy edilen uygulama yapmasi gerkli olan islemi belirli bir sayidan pod ile basariyla tamamlar ise podlar kapanir.basarili olmadan fail ederse o zaman job objesi podu yeniden baslatir
 # Job ve CronJob
 **job ve cronjob** konusuyla ilgili dosyalara buradan erişebilirsiniz.
 ***
