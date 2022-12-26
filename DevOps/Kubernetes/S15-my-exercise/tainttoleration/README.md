@@ -1,7 +1,5 @@
-# Affinity bir podun nerede olusturulacagini belirtir.Pod'a gore bir tanim var.
-# Su pod surada olussun deniyorsa node affinity
-# Worker node'un uzerinden sadece su podlar calissin.Taint and Toleration.Taintli nodelari tolera etmek icin podlara toleration kismini ekleriz
-# Taint ve Toleration
+# Affinity bir podun nerede olusturulacagini belirtir.Pod'a gore bir tanim var.Su pod surada olussun deniyorsa node affinity
+# Worker node'un uzerinden sadece su podlar calissin.Taint and Toleration.Taintli nodelari tolera etmek icin podlara toleration kismini ekleriz.Taint ve Toleration
 ***
 Node'lara taint ekleme.
 ```
