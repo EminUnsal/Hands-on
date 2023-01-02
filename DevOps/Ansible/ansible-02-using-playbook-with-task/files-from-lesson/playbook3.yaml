@@ -1,0 +1,28 @@
+- name: Copy my file with permissions to Amz Linux Servers
+  hosts: webservers
+  tasks:
+  - name: Another symbolic mode example, adding some permissions and removing others
+    ansible.builtin.copy:
+      src: /home/ec2-user/testfile1
+      dest: /home/ec2-user/testfile1
+      mode: u+rw,g-wx,o-rwx
+
+- name: Copy my file with permissions to Ubuntu Linux Servers
+  hosts: ubuntuservers
+  tasks:
+  - name: Another symbolic mode example, adding some permissions and removing others
+    ansible.builtin.copy:
+      src: /home/ec2-user/testfile1
+      dest: /home/ubuntu/testfile1
+      mode: u+rw,g-wx,o-rwx
+
+- name: Copy my file to node1 via content
+  hosts: node1
+  tasks:
+  - name: Copy using inline content
+    ansible.builtin.copy:
+      content: '# This file was moved to /etc/other.conf'
+      dest: /home/ec2-user/testfile2
+  
+  - name: Create new file with shell command
+    shell: "echo Hello World > /home/ec2-user/testfile3"

@@ -1,0 +1,56 @@
+##1
+# - name: Install Apache & wget to Amz Linux 2 servers
+#   hosts: webservers
+#   tasks:
+#   - name: Install the latest version of Apache
+#     ansible.builtin.yum:
+#       name: 
+#         - httpd
+#         - wget
+#       state: latest
+##2
+# - name: Install Apache & wget to Amz Linux 2 servers
+#   hosts: webservers
+#   tasks:
+#   - name: Install a list of packages with a list variable
+#     ansible.builtin.yum:
+#       name: "{{ packages }}"
+#       state: present
+#     vars:
+#       packages:
+#       - httpd
+#       - wget
+- name: Install Apache & wget to Amz Linux 2 servers
+  hosts: webservers
+  become: true
+  tasks:
+  - name: Install a list of packages with a list variable
+    ansible.builtin.yum:
+      name: "{{ item }}"
+      state: present
+    loop:
+      - httpd
+      - wget
+  - name: Start service httpd, if not started
+    ansible.builtin.service:
+      name: httpd
+      state: started
+      enabled: yes
+
+- name: Install Apache to Ubuntu 2 servers
+  hosts: ubuntuservers
+  become: yes
+  tasks:
+  - name: Install apache httpd  (state=present is optional)
+    ansible.builtin.apt:
+      name: apache2
+      state: present
+  - name: Start service httpd, if not started
+    ansible.builtin.service:
+      name: apache2
+      state: started
+      enabled: yes
+  - name: Create index.html content
+    ansible.builtin.copy:
+      content: '<h1>Hello Clarusway</h1>'
+      dest: /var/www/html/index.html

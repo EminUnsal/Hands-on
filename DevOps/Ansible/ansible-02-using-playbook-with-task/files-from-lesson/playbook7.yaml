@@ -1,0 +1,24 @@
+- name: Remove Apache & wget from Amz Linux 2 servers
+  hosts: webservers
+  become: true
+  tasks:
+  - name: Remove a list of packages with a list variable
+    ansible.builtin.yum:
+      name: "{{ item }}"
+      state: absent
+    loop:
+      - httpd
+      - wget
+
+- name: Remove Apache from Ubuntu 2 servers
+  hosts: ubuntuservers
+  become: yes
+  tasks:
+  - name: Remove apache httpd 
+    ansible.builtin.apt:
+      name: apache2
+      state: absent
+  - name: Remove dependencies that are no longer required
+    ansible.builtin.apt:
+      autoremove: yes
+      purge: yes

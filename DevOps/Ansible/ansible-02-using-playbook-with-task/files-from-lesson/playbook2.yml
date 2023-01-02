@@ -1,0 +1,24 @@
+- name: Copy testfile1 to my servers
+  hosts: all
+  tasks:
+  - name: Copy testfile1
+    copy:
+      src: /home/ec2-user/testfile1
+      dest: ~/testfile1 # relative path 
+    # dest: /home/ec2-user/testfile1 absolute path
+
+# - name: Copy testfile1 to my webservers
+#   hosts: webservers
+#   tasks:
+#    - name: Copy testfile1
+#      copy:
+#        src: /home/ec2-user/testfile1
+#        dest: /home/ec2-user/testfile1
+
+# - name: Copy for ubuntu
+#   hosts: ubuntuservers
+#   tasks:
+#    - name: Copy testfile1
+#      copy:
+#        src: /home/ec2-user/testfile1
+#        dest: /home/ubuntu/testfile1
