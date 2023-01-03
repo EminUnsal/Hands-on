@@ -1,0 +1,3 @@
+*interpreter_python=auto_silent #codelarin ciktilarindaki pythonla alakali ciktilari gizlemek icin
+*ansible webservers -a "uptime" burada default module command kullaniliyor.-m command
+*Emphasize the ```:``` sign between the hosts.  ansible node1:node2 -m shell -a "echo Hello Clarusway > /home/ec2-user/testfile3"

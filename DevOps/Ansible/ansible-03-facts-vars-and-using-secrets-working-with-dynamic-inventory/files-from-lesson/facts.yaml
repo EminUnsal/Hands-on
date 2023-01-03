@@ -1,0 +1,9 @@
+- name: show facts
+  hosts: all
+  tasks:
+  - name: print facts
+    debug:   #setup or garter_facts
+      var: ansible_os_family
+
+    debug:
+      var: ansible_facts["hostname"]

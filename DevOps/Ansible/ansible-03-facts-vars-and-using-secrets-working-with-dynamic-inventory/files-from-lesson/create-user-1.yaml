@@ -1,0 +1,16 @@
+- name: Create a user
+  hosts: "*"
+  become: true
+  vars_files: 
+    - secret-1.yaml
+  tasks:
+    - name: Creating user
+      user:
+        name: "{{ username }}"
+        password: "{{ pwhash | password_hash('sha512') }}"
+    - debug:
+        msg: "User name is {{ username | upper }}"
+
+
+# ap create-user-1.yaml --ask-vault-pass
+# ansible all -b -m shell -a " cat /etc/shadow | tail -n1"

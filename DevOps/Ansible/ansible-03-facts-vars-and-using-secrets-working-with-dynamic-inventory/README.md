@@ -142,6 +142,11 @@ ec2-34-201-69-79.compute-1.amazonaws.com | SUCCESS => {
 ```
 - create a playbook named "facts.yml"
 
+MY NOTE:
+ansible node1 -m setup | grep ansible_os_family
+ansible node -m setup -a'filter=ansible_os_family'
+ansible node1 -m gather_facst =ansible node -m setup
+
 ```yml
 - name: show facts
   hosts: all

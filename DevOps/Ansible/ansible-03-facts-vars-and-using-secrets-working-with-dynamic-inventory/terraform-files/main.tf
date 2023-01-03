@@ -22,9 +22,21 @@ locals {
   user = "clarusway"
 }
 
+data "aws_ami" "amazon_linux2" {
+  most_recent      = true
+  owners           = ["amazon"]
 
+  filter {
+    name = "virtualization-type"
+    values = ["hvm"]
+  }
+  filter {
+    name = "name"
+    values = ["amzn2-ami-kernel-5.10*"]
+  }
+}
 resource "aws_instance" "nodes" {
-  ami = var.myami
+  ami = data.aws_ami.amazon_linux2.id
   instance_type = var.instancetype
   count = var.num
   key_name = var.mykey
@@ -34,12 +46,8 @@ resource "aws_instance" "nodes" {
   }
 }
 
-data "aws_vpc" "default" {
-  default = true
-}
 resource "aws_security_group" "tf-sec-gr" {
   name = "ansible-lesson3-sec-gr-${local.user}"
-  vpc_id = data.aws_vpc.default.id
   tags = {
     Name = "ansible-session3-sec-gr-${local.user}"
   }
