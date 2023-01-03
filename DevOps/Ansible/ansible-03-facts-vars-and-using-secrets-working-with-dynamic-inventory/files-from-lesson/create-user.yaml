@@ -1,12 +1,13 @@
-- name: Create a user
-  hosts: "*"
+- name: Create a User
   become: true
-  vars_files: 
+  hosts: all
+  vars_files:
     - secret.yaml
   tasks:
-    - name: Create user
+    - name: create-User
       user:
         name: "{{ username }}"
-        password: "{{ password }}"  
+        password:  "{{ password }}"
 
-# ansible all -b -m command -a " tail -n3 /etc/shadow "
+#  a node1 -b -m shell -a "cat /etc/shadow | tail -n1 "
+# a node1 -b -m shell -a " grep tyler /etc/shadow "
