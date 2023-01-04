@@ -1,0 +1,10 @@
+---
+- name: DB Configuration
+  hosts: db_server
+  tasks:
+  - name: Install the latest version of Apache
+    ansible.builtin.yum:
+      name:
+        - mariadb-server
+        - python3-PyMySQL
+      state: latest
