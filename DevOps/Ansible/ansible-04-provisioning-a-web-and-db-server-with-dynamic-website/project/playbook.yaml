@@ -77,3 +77,55 @@
     ansible.builtin.service:
       name: mariadb
       state: restarted
+
+- name: WebServer Configuration
+  hosts: web_server
+  become: yes
+  tasks:
+  - name: Install a list of packages to my server
+    become: yes
+    package:
+      name:
+        - git
+        - httpd
+        - php
+        - php-mysqlnd
+      state: present
+  - name: Make sure a service unit is running
+    ansible.builtin.systemd:
+      state: started
+      name: httpd
+      enabled: yes
+
+  - name: clone the repo to web_server
+    shell: |
+      if [ -z "$(ls -al /var/www/html | grep .git)" ]; then
+        git clone https://github.com/kodekloudhub/learning-app-ecommerce.git /var/www/html/
+        echo "ok"
+      else
+        echo "already cloned..."
+      fi
+    register: result
+
+  - name: See the result of clone tasks
+    debug:
+      var: result
+  - name: Fix mysql connect command in index.php
+    lineinfile:
+      path: /var/www/html/index.php
+      regexp: '172.20.1.101'
+      line: "$link = mysqli_connect('{{ hostvars['db_server'].ansible_host }}', 'remoteUser', 'clarus1234', 'ecomdb');"
+    when: not result.stdout == "already cloned..."
+  - name: Disable Selinux
+    selinux:
+      state: disabled    
+
+  - name: Restart apache service 
+    service:
+      name: httpd
+      state: restarted  
+    ## alternative
+    # systemd:
+    #   name: httpd
+    #   state: restarted 
+
