@@ -1,0 +1,26 @@
+plugin: aws_ec2
+regions:
+  - "us-east-1"
+# ansible-inventory --graph -i inventory_aws_ec2.yaml
+keyed_groups:
+  - key: tags.Name
+    prefix: my
+    separator: "___"
+  # - key: tags.env
+  # - prefix: arch
+  #   key: architecture
+  # - prefix: tag
+  #   key: tags
+  # - prefix: region
+  #   key: placement.region
+  # - prefix: instance_type
+  #   key: instance_type
+filters:
+  instance-state-name: running        # pending | running | shutting-down
+  #https://docs.aws.amazon.com/cli/latest/reference/ec2/describe-instances.html#options
+  # tag:env: ansible  # tag olarak ec2 lara env=ansible olarak yapmistik
+# compose:
+#   ansible_host: public_ip_address
+#   foo: private_ip_address
+#   boo: instance_id
+#   key: key_name
