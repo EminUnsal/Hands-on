@@ -1,0 +1,128 @@
+---
+- name: DB configuration
+  hosts: Name_db_server
+  tasks:
+  - name: Install the latest version of Mariadb & PyMySQL
+    become: yes
+    ansible.builtin.yum:
+      name: 
+        - mariadb-server
+        - python3-PyMySQL
+      state: latest
+
+  # - name: Start Mariadb Server
+  #   become: yes
+  #   shell: systemctl start mariadb
+
+  - name: Start & enable service mariadb
+    become: yes
+    ansible.builtin.service:
+      name: mariadb
+      state: started
+      enabled: yes
+
+  - name: Copy initial db to the server
+    ansible.builtin.copy:
+      src: /home/ec2-user/project/db-load-script.sql
+      dest: ~/
+
+  # - name: Set root password
+  #   community.mysql.mysql_user:
+  #     name: root
+  #     password: "clarus1234"
+  #     login_user: root
+  #     login_password: ''
+
+  - name: Copy .my.cnf file to db_server
+    ansible.builtin.copy:
+      src: /home/ec2-user/project/.my.cnf
+      dest: ~/
+
+  - name: Create database user with password and all database privileges and 'WITH GRANT OPTION'
+    community.mysql.mysql_user:
+      name: remoteUser
+      password: "clarus1234"
+      priv: '*.*:ALL,GRANT'
+      state: present
+      # login_user: root
+      # login_password: "clarus1234"
+      host: "{{ hostvars['Name_web_server'].private_ip_address }}"
+
+  - name: Create a new database with name ecomdb
+    community.mysql.mysql_db:
+      name:
+        - ecomdb
+      state: present
+      # login_user: root
+      # login_password: clarus1234
+
+  - name: check if ecomdb has table
+    shell: |
+      echo "USE ecomdb; show tables like 'products'; " | mysql
+    register: resultOfShowTables
+
+  - name: Print return information from resultOfShowTables
+    ansible.builtin.debug:
+      var: resultOfShowTables
+
+  - name: Create database table
+    community.mysql.mysql_db:
+      name: ecomdb
+      state: import
+      target: ~/db-load-script.sql
+    when: resultOfShowTables.stdout == ""
+
+  - name: Restart service mariadb
+    become: yes
+    ansible.builtin.service:
+      name: mariadb
+      state: restarted
+
+- name: Web Server configuration
+  hosts: Name_web_server
+  become: yes
+  tasks:
+  - name: Install a list of packages to my server
+    ansible.builtin.package:
+      name: 
+        - git
+        - httpd
+        - php
+        - php-mysqlnd
+      state: present
+
+  - name: Make sure a service unit is running
+    ansible.builtin.systemd:
+      state: started
+      name: httpd
+      enabled: yes
+
+  - name: clone repo to my web_server
+    shell: |
+      if [ -z "$(ls -al /var/www/html | grep .git)" ]; then
+        git clone https://github.com/kodekloudhub/learning-app-ecommerce.git /var/www/html/
+        echo "ok"
+      else
+        echo "already cloned..."
+      fi
+    register: result
+
+  - name: See the result of clone tasks
+    debug:
+      var: result
+
+  - name: Fix mysql connect command in index.php
+    ansible.builtin.lineinfile:
+      path: /var/www/html/index.php
+      regexp: '172.20.1.101'
+      line: "$link = mysqli_connect('{{ hostvars['Name_db_server'].private_ip_address }}', 'remoteUser', 'clarus1234', 'ecomdb');"
+    when: not result.stdout == "already cloned..."
+
+  - name: Disable SELinux
+    ansible.posix.selinux:
+      state: disabled
+
+  - name: Restart apache server
+    ansible.builtin.systemd:
+      state: restarted
+      name: httpd

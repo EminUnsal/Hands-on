@@ -1,0 +1,14 @@
+# You must install first pip3 install --user boto3 botocore
+plugin: aws_ec2
+regions:
+  - "us-east-1"
+keyed_groups:
+  - key: tags.Name
+filters:
+  instance-state-name: running
+  tag:env: josh
+compose:
+  ansible_host: public_ip_address
+hostnames:
+  - tag:Name=web_server
+  - tag:Name=db_server
