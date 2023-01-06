@@ -185,6 +185,9 @@ $ ansible-playbook role1.yml
 
 ```bash
 $ ansible-galaxy search nginx
+Alternative
+$ ansible-galaxy search nginx --author geerlingguy
+$ ansible-galaxy search nginx --platform EL | grep geerl
 
 
 Stdout:
@@ -377,8 +380,7 @@ ansible-galaxy init /home/ec2-user/ansible/roles/common
 
 ```yml
 ---
--
-  hosts: instance_image
+- hosts: instance_image
   become: yes
   become_method: sudo  
 
@@ -389,6 +391,7 @@ ansible-galaxy init /home/ec2-user/ansible/roles/common
     - ansible-prometheus-node-exporter
 
 ```
+https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_reuse_roles.html#running-a-role-multiple-times-in-one-play
 
 * To apply this, first you need to configure your Inventory file, so add your Ubuntu instance private ip to inventory, give alias name "instance_image".
 
