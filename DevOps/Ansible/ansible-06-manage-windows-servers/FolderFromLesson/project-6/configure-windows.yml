@@ -1,0 +1,16 @@
+- name: windows server configuration
+  hosts: windows_servers
+  gather_facts: false
+  tasks:  
+  - name: Install a list of programs
+    win_chocolatey:
+      name: "{{ packages }}"
+      state: present
+  vars:
+    packages:
+      - git
+      - sublimetext4
+      # - notepadplusplus
+      # - googlechrome
+      # - docker-desktop
+    

@@ -1,0 +1,26 @@
+- name: windows server configuration
+  hosts: windows_servers
+  tasks:  
+    - name: Set timezone to 'Central Standard Time' 
+      community.windows.win_timezone:
+        timezone: Central Standard Time
+
+    - name: Change the hostname to webserver
+      win_hostname:
+        name: mehmet-hostname
+      register: res # yapilan islemlerin sonucu res degiskenine ataniyor
+    
+    - name: See the result
+      debug:
+        var: res  
+
+    - name: Reboot
+      win_reboot:
+      when: res.reboot_required
+        
+
+- name: Ping to linux server
+  hosts: linux_servers
+  tasks:
+  -  name: Check the connectivity for linux server
+     ping: 
