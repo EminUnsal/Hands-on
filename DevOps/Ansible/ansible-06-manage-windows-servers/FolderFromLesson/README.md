@@ -293,7 +293,8 @@ rm inventory.txt inventory.ini
 ```bash
 vi inventory.yml
 ```
-
+Bu komutla provate key file nasil yazilmasi lazim ogrenebilirim
+ansible-config list | grep private
 ```yaml
 windows_servers:
   hosts:
@@ -360,6 +361,7 @@ vi configure-windows.yml
 ```
 
 - Paste the content below into the configure-windows.yml file.
+https://docs.ansible.com/ansible/latest/collections/community/windows/win_timezone_module.html
 
 ```yaml
 - name: windows server configuration
