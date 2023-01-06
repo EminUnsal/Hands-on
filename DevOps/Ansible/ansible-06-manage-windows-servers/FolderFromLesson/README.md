@@ -276,6 +276,11 @@ cd ..
 cp -r project-2/ project-3/
 cd project-3
 ```
+yaml dosyasi olusturma
+https://docs.ansible.com/ansible/latest/collections/ansible/builtin/yaml_inventory.html#examples
+YAml dosyasi nasil olusturulur
+11:03 Uhr
+https://docs.ansible.com/ansible/latest/inventory_guide/intro_inventory.html#connecting-to-hosts-behavioral-inventory-parameters
 
 - Delete ```inventory.txt``` and ```inventory.ini``` files.
 

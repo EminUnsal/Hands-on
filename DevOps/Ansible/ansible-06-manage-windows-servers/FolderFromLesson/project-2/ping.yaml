@@ -1,0 +1,7 @@
+- name: Ping to windows server
+  hosts: windows_servers
+  # gather_facts: false
+  tasks:
+  -  name: Check the connectivity for windows server
+     ansible.windows.win_ping:
+      

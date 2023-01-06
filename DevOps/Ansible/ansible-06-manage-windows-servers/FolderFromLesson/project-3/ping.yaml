@@ -1,0 +1,10 @@
+- name: Ping to windows server
+  hosts: windows_servers
+  tasks:
+  -  name: Check the connectivity for windows server
+     ansible.windows.win_ping:
+- name: Ping to linux server
+  hosts: linux_servers
+  tasks:
+  -  name: Check the connectivity for linux server
+     ping: 
