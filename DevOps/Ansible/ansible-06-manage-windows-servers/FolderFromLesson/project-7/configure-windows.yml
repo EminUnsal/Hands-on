@@ -1,0 +1,36 @@
+- name: windows server configuration
+  hosts: windows_servers
+  gather_facts: false
+  tasks:
+  - name: Create a folder with multiple attributes
+    ansible.windows.win_dsc:
+      resource_name: File
+      DestinationPath: C:\ansible\dsc
+      Attributes:
+      - Hidden
+      - System
+      Ensure: Present
+      Type: Directory
+
+  - name: Create a file
+    ansible.windows.win_dsc:
+      resource_name: File
+      DestinationPath: C:\ansible\sample.txt
+      Contents: |
+        Hello
+        Clarusway!
+      Ensure: Present
+      Type: File
+
+  - name: Install 7zip
+    win_chocolatey:
+      name: 7zip
+      version: '22.1'
+      state: present
+
+  - name: Extract zip file
+    ansible.windows.win_dsc:
+      resource_name: Archive
+      Ensure: Present
+      Path: C:\ansible\ansible.zip
+      Destination: C:\ansible_extracted

@@ -1,0 +1,12 @@
+windows_servers:
+  hosts:
+    172.31.87.58
+  vars:
+    ansible_connection: winrm
+    ansible_winrm_server_cert_validation: ignore
+linux_servers:
+  hosts:
+    172.31.95.211
+  vars:
+    ansible_user: ec2-user  
+    ansible_ssh_private_key_file: ~/First_Key.pem

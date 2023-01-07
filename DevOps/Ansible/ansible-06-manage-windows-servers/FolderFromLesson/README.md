@@ -405,7 +405,7 @@ cd group_vars
 ```
 
 - Create an encypted file using "ansible-vault" command named ```windows_servers.yml``` under the group_vars directory.
-
+https://docs.ansible.com/ansible/latest/vault_guide/vault_encrypting_content.html#creating-encrypted-variables
 ```bash
 ansible-vault create windows_servers.yml
 ```
@@ -445,7 +445,8 @@ cp -r project-5/ project-6/
 cd project-6
 ```
 - Modify the ```configure-windows.yml``` file with following:
-
+https://community.chocolatey.org/packages
+https://docs.ansible.com/ansible/latest/collections/chocolatey/chocolatey/win_chocolatey_module.html
 ```yml
 - name: win_chocolatey module example
   hosts: windows_servers
