@@ -1,0 +1,6 @@
+export PS1="\[\e[1;31m\]\u\[\e[1;36m\]\[\033[m\]@controlNode:\[\e[0m\]\[\e[1;32m\][\W]> \[\e[0m\]"
+
+alias ap=ansible-playbook
+alias c=clear
+alias ag=ansible-galaxy
+alias a=ansible 
