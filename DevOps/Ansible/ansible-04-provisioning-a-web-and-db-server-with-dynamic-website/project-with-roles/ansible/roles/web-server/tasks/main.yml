@@ -1,0 +1,80 @@
+---
+# tasks file for /home/ec2-user/ansible/roles/db
+- name: Install mariadb and PyMySQL
+  become: yes
+  yum: 
+    name: 
+      - mariadb-server
+      - python3-PyMySQL
+    state: latest
+
+- name: Start and Enable mariadb
+  become: yes
+  service:
+    name: mariadb
+    state: started
+    enabled: yes
+
+#  ALTERNATIVE
+#- name: Start mariadb
+#  shell: systemctl start mariadb
+#- name: Start mariadb
+#  command: systemctl start mariadb
+#- name: Enable mariadb
+#   become: yes
+#   systemd:
+#     name: mariadb
+#     enabled: true
+- name: Copy the sql script
+  copy:
+    src: ~/ansible/roles/db/files/db-load-script.sql
+    dest: ~/
+
+- name: Set root password
+  mysql_user:
+    name: root
+    password: 'mehmet123'
+    login_password: ''
+    login_user: root
+
+- name: Copy the .my
+  copy:
+    src: ~/ansible/roles/db/files/.my.cnf
+    dest: ~/
+
+- name: create database user with password and all database privileges
+  mysql_user: 
+    name:  remoteUser
+    password: 'mehmet1234'
+    priv: '*.*:ALL,GRANT'
+    #login_password: 'mehmet123'
+    #login_user: root # home dizinindeki .my.cfn dosyasindan dolayi bu bilgileri girmeye gerek yok
+    host: "{{ hostvar['web_server'].ansible_host }}"
+
+- name: Create a new database with name ecomdb
+  mysql_db:
+    name: 
+      -ecomdb
+    state: present 
+
+- name: check if ecomdb has table
+  shell: |
+    echo "USE ecomdb; show tables like 'pruducts'; " | mysql
+    register: resultOfShowTables
+
+- name: Print return information from resultOfShowTables
+  debug:
+  var: resultOfShowTables
+
+- name: Import database table
+  mysql_db:
+    name: ecomdb
+    state: import
+    target: ~/db-load-script.sql
+  when: resultOfShowTables.stdout == ""
+
+- name: Start and Enable mariadb
+  become: yes
+  service:
+    name: mariadb
+    state: restarted

@@ -1,0 +1,6 @@
+- name: 
+  hosts: db_server
+  become: yes
+  gather_facts: false
+  roles:
+    - db
