@@ -61,6 +61,7 @@ xxxxxxxxxxxx.dkr.ecr.us-east-1.amazonaws.com/student1-repo/todo-app
 ```
 
 ### Creating a lifecycle policy:
+https://docs.aws.amazon.com/AmazonECR/latest/userguide/lifecycle_policy_examples.html
 
 - A lifecycle policy allows you to create a set of rules that expire unused repository images. The following procedure shows you how to create a lifecycle policy. You should expect that after creating a lifecycle policy, the affected images are expired within 24 hours.
 

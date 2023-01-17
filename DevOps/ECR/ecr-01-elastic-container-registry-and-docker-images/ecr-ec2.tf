@@ -66,11 +66,25 @@ resource "aws_iam_instance_profile" "ec2_profile" {
 }
 
 
+data "aws_ami" "amazon_linux2" {
+  most_recent      = true
+  owners           = ["amazon"]
+
+  filter {
+    name = "virtualization-type"
+    values = ["hvm"]
+  }
+  filter {
+    name = "name"
+    values = ["amzn2-ami-kernel-5.10*"]
+  }
+}
+
 resource "aws_instance" "ecr-instance" {
-  ami                  = "ami-02e136e904f3da870"
+  ami                  = data.aws_ami.amazon_linux2.id
   instance_type        = "t2.micro"
-  key_name        = "davidskey" # you need to change this line
-  security_groups = ["ec2-sec-gr"]
+  key_name        = "First_Key" # you need to change this line
+  vpc_security_group_ids = [aws_security_group.ec2-sec-gr.id]
   tags = {
     Name = "ec2-ecr-instance"
   }
