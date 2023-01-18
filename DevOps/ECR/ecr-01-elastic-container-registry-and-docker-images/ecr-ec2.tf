@@ -83,7 +83,7 @@ data "aws_ami" "amazon_linux2" {
 resource "aws_instance" "ecr-instance" {
   ami                  = data.aws_ami.amazon_linux2.id
   instance_type        = "t2.micro"
-  key_name        = "First_Key" # you need to change this line
+  key_name        = "davidskey" # you need to change this line
   vpc_security_group_ids = [aws_security_group.ec2-sec-gr.id]
   tags = {
     Name = "ec2-ecr-instance"
