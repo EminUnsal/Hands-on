@@ -89,6 +89,9 @@ sudo amazon-linux-extras install epel -y
 
 - Install Jenkins.
 
+https://www.jenkins.io/doc/book/installing/linux/ --> InstallationSteps of Jenkins
+https://www.jenkins.io/download/ --> Release ile alakali
+
 ```bash
 sudo yum install jenkins -y
 ```
