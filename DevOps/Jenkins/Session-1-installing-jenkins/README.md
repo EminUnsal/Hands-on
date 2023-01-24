@@ -119,6 +119,10 @@ sudo systemctl status jenkins
 ```bash
 sudo cat /var/lib/jenkins/secrets/initialAdminPassword
 ```
+Jenkins server'in loglarinda da sifreyi gorebilirim
+journalctl -u jenkins.service
+https://www.jenkins.io/doc/book/system-administration/viewing-logs/
+
 - Open your browser, get your ec2 instance Public IPv4 DNS and paste it at address bar with 8080. 
 "http://[ec2-public-dns-name]:8080"
 
