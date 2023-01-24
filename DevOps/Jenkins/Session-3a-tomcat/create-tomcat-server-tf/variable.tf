@@ -4,7 +4,7 @@ variable "region" {
   default = "us-east-1"
 }
 variable "mykey" {
-  default = "First_Key"
+  default = "mykey"
 }
 variable "tags" {
   default = ["stage", "production"]
