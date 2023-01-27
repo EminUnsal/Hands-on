@@ -224,7 +224,7 @@ git add .
 git commit -m 'updated jenkinsfile and added pipeline.py'
 git push
 ```
-https://www.jenkins.io/doc/book/pipeline/syntax/  ---> Jenkinsfile script ornekleri
+#### https://www.jenkins.io/doc/book/pipeline/syntax/  ---> Jenkinsfile script ornekleri #####
 - Observe the new built triggered with `git push` command on the Jenkins project page.
 
 ## Part 4 - Creating a Pipeline with Poll SCM
