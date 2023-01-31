@@ -82,11 +82,11 @@ aws configure
 
 ```bash
 eksctl create cluster \
- --name aduncan \
+ --name mehmet-elk \
  --region us-east-1 \
  --zones us-east-1a,us-east-1b,us-east-1c \
  --nodegroup-name my-nodes \
- --node-type t2.medium \
+ --node-type t3a.medium \
  --nodes 2 \
  --nodes-min 2 \
  --nodes-max 3 \
@@ -270,3 +270,5 @@ kubectl logs -f my-pod                              # stream pod logs (stdout)
 kubectl logs -f my-pod -c my-container              # stream pod container logs (stdout, multi-container case)
 kubectl logs -f -l name=myLabel --all-containers    # stream all pods logs with label name=myLabel (stdout)
 ***********************   
+
+Bevor terraform Destroy,you musst wait End of CLuster 
