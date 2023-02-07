@@ -39,7 +39,7 @@ sudo apt-get update
 - Now we need to install Java. It is quite a straightforward installation. Just execute the command to get default-jre.
 
 ```bash
-sudo apt-get install default-jre
+sudo apt-get install default-jre -y # java uzerinden gelistirildigi icin java yuklenmesi gerek
 ```
 
 - You can always check your Java version by executing the command `java -version` to make sure you have Java installed successfully.
@@ -49,7 +49,7 @@ sudo apt-get install default-jre
 - Let’s install Elasticsearch as the first step towards completing our ELK stack. The installation process is fairly straightforward. Follow the next few steps. Add the repository key first,
 
 ```bash
-wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -
+wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add - # kurulum oncesinde extra bilgiler indirmemiz lazim
 ```
 
 ### Install the Apt Transport HTTPS because the default image does not contain that.
@@ -163,10 +163,10 @@ cluster.initial_master_nodes: ["node-1"]
 # action.destructive_requires_name: true
 
 
-* *  You need to configure JVM heap size to be in the safe side when running the ElasticSearch. Since we are running an m4.large instance, we will allocate 4GB as the heap size. Edit the file `/etc/elasticsearch/jvm.options` and enable the `-Xms4` lines. 
+* *  You need to configure JVM heap size to be in the safe side when running the ElasticSearch. Since we are running an m4.large instance, we will allocate 4GB as the heap size. Edit the file `/etc/elasticsearch/jvm.options` and enable the `-Xms4` lines. #calistirgimiz stack elasticsearch zorladiginda extra ne kadar daha kullanabilir
 
 * * -Xms4g
-    -Xmx4g
+    -Xmx4g # cizgiler tam satir basinda olacak
 
 ### Now you are ready to start the Elasticseach service by executing,
 
@@ -204,8 +204,8 @@ sudo apt-get install logstash
 180.171.26.145 - - [30/Mar/2020:00:00:15 +0000] "GET /item/books/2957 HTTP/1.1" 200 85 "/category/books?from=0" "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1; WOW64; Trident/4.0; YTB730; GTB7.2; SLCC2; .NET CLR 2.0.50727; .NET CLR 3.5.30729; .NET CLR 3.0.30729; .NET4.0C; .NET4.0E; Media Center PC 6.0)"
 176.24.199.26 - - [30/Mar/2020:00:00:20 +0000] "GET /category/garden?from=10 HTTP/1.1" 200 130 "/item/electronics/3233" "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1; Trident/4.0; YTB730; SLCC2; .NET CLR 2.0.50727; .NET CLR 3.5.30729; .NET CLR 3.0.30729; Media Center PC 6.0; .NET4.0C)"
 140.192.193.89 - - [30/Mar/2020:00:00:25 +0000] "GET /category/electronics HTTP/1.1" 200 51 "http://www.google.com/search?ie=UTF-8&q=google&sclient=psy-ab&q=Electronics+Music&oq=Electronics+Music&aq=f&aqi=g-vL1&aql=&pbx=1&bav=on.2,or.r_gc.r_pw.r_qf.,cf.osb&biw=4986&bih=109" "Mozilla/5.0 (Windows NT 6.0; rv:10.0.1) Gecko/20100101 Firefox/10.0.1"
-184.213.228.52 - - [30/Mar/2020:00:00:30 +0000] "GET /category/games?from=0 HTTP/1.1" 200 69 "/category/games" "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1; WOW64; Trident/4.0; YTB730; GTB7.2; EasyBits GO v1.0; SLCC2; .NET CLR 2.0.50727; .NET CLR 3.5.30729; .NET CLR 3.0.30729; Media Center PC 6.0; .NET4.0C)"
-116.198.170.144 - - [30/Mar/2020:00:00:35 +0000] "GET /category/electronics HTTP/1.1" 200 122 "/item/music/1557" "Mozilla/5.0 (Windows NT 6.0) AppleWebKit/535.11 (KHTML, like Gecko) Chrome/17.0.963.56 Safari/535.11"
+184.213.228.52 - - [30/Mar/2020:00:00:30 +0000] "GET /category/games?from=0 HTTP/1.1" 500 69 "/category/games" "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1; WOW64; Trident/4.0; YTB730; GTB7.2; EasyBits GO v1.0; SLCC2; .NET CLR 2.0.50727; .NET CLR 3.5.30729; .NET CLR 3.0.30729; Media Center PC 6.0; .NET4.0C)"
+116.198.170.144 - - [30/Mar/2020:00:00:35 +0000] "GET /category/electronics HTTP/1.1" 500 122 "/item/music/1557" "Mozilla/5.0 (Windows NT 6.0) AppleWebKit/535.11 (KHTML, like Gecko) Chrome/17.0.963.56 Safari/535.11"
 44.90.187.34 - - [30/Mar/2020:00:00:40 +0000] "GET /category/finance HTTP/1.1" 200 125 "-" "Mozilla/5.0 (Windows NT 5.1) AppleWebKit/535.11 (KHTML, like Gecko) Chrome/17.0.963.46 Safari/535.11"
 196.60.49.217 - - [30/Mar/2020:00:00:45 +0000] "GET /category/giftcards HTTP/1.1" 200 119 "http://www.google.com/search?ie=UTF-8&q=google&sclient=psy-ab&q=Giftcards+Books&oq=Giftcards+Books&aq=f&aqi=g-vL1&aql=&pbx=1&bav=on.2,or.r_gc.r_pw.r_qf.,cf.osb&biw=2477&bih=449" "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1; WOW64; Trident/4.0; YTB730; GTB7.2; SLCC2; .NET CLR 2.0.50727; .NET CLR 3.5.30729; .NET CLR 3.0.30729; .NET4.0C; .NET4.0E; Media Center PC 6.0)"
 48.180.192.116 - - [30/Mar/2020:00:00:50 +0000] "GET /category/garden HTTP/1.1" 200 122 "/item/garden/2061" "Mozilla/5.0 (Windows NT 6.0; rv:10.0.1) Gecko/20100101 Firefox/10.0.1"
