@@ -1,0 +1,52 @@
+version: '3.7'
+
+networks:
+  agim:
+    driver: overlay
+volumes:
+  depom:
+
+secrets:
+   db_password:
+     file: db_password.txt
+   db_root_password:
+     file: db_root_password.txt
+
+services:
+  webservisim:
+    image: wordpress:latest
+    deploy:
+      replicas: 3
+      update_config:
+        parallelism: 2
+        delay: 10s
+    ports:
+      - "8081:80"
+    depends_on:
+      - databasem
+    environment:
+      WORDPRESS_DB_HOST: databasem:3306
+      WORDPRESS_DB_NAME: ilkdatabase
+      WORDPRESS_DB_USER: mehmet
+      WORDPRESS_DB_PASSWORD_FILE: /run/secrets/db_password
+    networks:
+      - agim
+    secrets:
+      - db_password
+      
+  databasem:
+    image: mysql:5.7
+    networks:
+      - agim
+    volumes:
+      - depom:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/db_root_password
+      MYSQL_DATABASE: ilkdatabase
+      MYSQL_USER: mehmet
+      MYSQL_PASSWORD_FILE: /run/secrets/db_password
+    secrets:
+      - db_root_password
+      - db_password
+
+
