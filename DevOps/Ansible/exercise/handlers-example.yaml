@@ -1,0 +1,9 @@
+- hosts: webserver1
+  user: root
+  tasks:
+    - name: test copy
+      copy: src:/root/a.txt dest=/mnt
+      notify: test handlers
+  handlers:
+    - name: test handlers
+      shell: echo "Hello World!" >> /mnt/test.txt

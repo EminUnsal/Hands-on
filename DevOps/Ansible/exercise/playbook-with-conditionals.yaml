@@ -1,0 +1,14 @@
+- name: Install NGINX
+  hosts: webservers
+  tasks:
+    - name: Install NGINX on Redhat
+      yum:
+        name: nginx
+        state: present
+      when: ansible_os_family == "RedHat"
+    - name: Install NGINX on Debian
+      apt:
+        name: nginx
+        state: present
+      when: ansible_os_family == "Debian" and ansible_distribution_version == "16.04"
+  

@@ -1,0 +1,12 @@
+- name: Install with items
+  hosts: webservers
+  tasks:
+    - name:
+      yum:
+        - name: {{ item }}
+          state: present
+      loop:
+        - httpd
+        - binutils
+        - mongodb
+        - grunt

@@ -1,3 +1,4 @@
+---
 - name: update web servers
   hosts: webservers
   remote_user: root
@@ -10,6 +11,15 @@
       template:
         src: /srv/httpd.j2
         dest: /etc/httpd.cfg
+
+- name: copy for linux
+  hosts: webservers
+  tasks:
+    - name: Copy your file to the webservers
+      copy:
+        src: /home/ec2-user/testfile1
+        dest: /home/ec2-user/testfile1
+
 - name: update db servers
   hosts: databases
   remote_user: root
