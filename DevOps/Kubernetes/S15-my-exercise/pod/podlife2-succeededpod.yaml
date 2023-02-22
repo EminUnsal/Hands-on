@@ -8,3 +8,4 @@ spec:
   - name: succeedcontainer
     image: ubuntu:latest
     command: ['sh', '-c', 'echo "Hello, Kubernetes!" && sleep 20']
+    # bu komutla uygulama icerisinde calisacak komutu ben belirliyorum

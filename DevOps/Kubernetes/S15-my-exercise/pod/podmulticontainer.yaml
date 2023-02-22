@@ -15,6 +15,7 @@ spec:
     image: busybox
     command: ["/bin/sh"]
     args: ["-c", "while true; do wget -O /var/log/index.html https://raw.githubusercontent.com/ozgurozturknet/hello-world/master/index.html; sleep 15; done"]
+   # sidecar birseyi surekli guncel olarak secip yayinlamak istersek kullanilir
     volumeMounts:
     - name: sharedvolume
       mountPath: /var/log
