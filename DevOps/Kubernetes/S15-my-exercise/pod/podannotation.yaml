@@ -3,9 +3,9 @@ kind: Pod
 metadata:
   name: annotationpod
   annotations:
-    owner: "Mehmet Unsal"
-    notification-email: "admin@devopsmehmet.link"
-    releasedate: "21.12.2022"
+    owner: "Ozgur OZTURK"
+    notification-email: "admin@k8sfundamentals.com"
+    releasedate: "01.01.2021"
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
 spec:
   containers:

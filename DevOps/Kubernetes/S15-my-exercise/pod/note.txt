@@ -1,3 +1,0 @@
-kubectl port-forward pod/envpod 8080:80
-kubectl port-forward <obj>/<objenin ismi> <local>/<objenin portu>
-curl 127.0.0.1:8080

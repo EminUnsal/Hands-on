@@ -10,14 +10,14 @@ spec:
     matchLabels:
       app: recreate
   strategy:
-    type: Recreate # tum mevcutr podlari sil yeni versionu yukle sonra...hardcore migration
+    type: Recreate
   template:
     metadata:
       labels:
         app: recreate
     spec:
       containers:
-      - name: mypod # kubectl set image deployment/rcdeployment mypod=nginx
-        image: httpd
+      - name: nginx
+        image: nginx
         ports:
         - containerPort: 80

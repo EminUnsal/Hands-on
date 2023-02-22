@@ -10,9 +10,9 @@ spec:
     matchLabels:
       app: rolling
   strategy:
-    type: RollingUpdate ### strategy belirtmez isem default RollingUpdate %25 dir.
-    rollingUpdate:      ### Recreate'in tam tersidir
-      maxUnavailable: 2 
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 2
       maxSurge: 2
   template:
     metadata:
@@ -20,16 +20,7 @@ spec:
         app: rolling
     spec:
       containers:
-      - name: mypod
+      - name: nginx
         image: nginx
         ports:
         - containerPort: 80
-# kubectl set image deployment rolldeployment mypod=nginx --record=true 
-# bunu record parametresinden dolayi history komutuyla gorebiliriz 
-# kubectl rollout undo deployment rolldeployment --to-revision=1  demek 
-# istedigim versiyona gitmemi sagliyor
-#kubectl rollout status deployment rolldeployment -w
-#canli olarak deployment surecini izleyebilirim
-#kubectl rollout pause/resume deployment rolldeployment
-#version gecisinde bir problem varsa , o andan durdurmak istiyorsa degisikligin devam 
-#etmesini pause kullanilirim.birseyler yanlis giderse kullanilir

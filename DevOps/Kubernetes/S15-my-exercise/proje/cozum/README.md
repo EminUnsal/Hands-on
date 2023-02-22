@@ -238,8 +238,6 @@ $ kubectl drain $nodedrain --ignore-daemonsets --delete-local-data
 
 $ kubectl cordon $nodedrain
 
-$ kubectl uncordon $nodedrain
-
 ```
 
 </details>

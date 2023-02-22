@@ -9,11 +9,11 @@ spec:
   - name: liveness
     image: k8s.gcr.io/liveness
     args:
-    - /server   #Bunun uzerinde uygulama web sitemizi sunacagiz
+    - /server
     livenessProbe:
       httpGet:
-        path: /healthz     # localhostda /healthz endpointine http get istegi gonderir.Uygulama http tabanli olmali
-        port: 8080         #host must turn a responce between 200-400
+        path: /healthz
+        port: 8080
         httpHeaders:
         - name: Custom-Header
           value: Awesome
@@ -33,12 +33,12 @@ spec:
     args:
     - /bin/sh
     - -c
-    - touch /tmp/healthy; sleep 30; rm -rf /tmp/healthy; sleep 600 #girilecek kod
+    - touch /tmp/healthy; sleep 30; rm -rf /tmp/healthy; sleep 600
     livenessProbe:
       exec:
         command:
         - cat
-        - /tmp/healthy # bu dosyayi sorguyacak her zaman.0 donerse problem yok
+        - /tmp/healthy
       initialDelaySeconds: 5
       periodSeconds: 5
 ---

@@ -9,9 +9,3 @@ $ kubectl create secret docker-registry "secret_ismi" --docker-server="registry_
 Ör: kubectl create secret docker-registry regscrt --docker-server=ozgurozturkregistry.azurecr.io --docker-username=ozgurozturkregistry --docker-password=wqRjEDdVhrM9Hj4D=gWwvV3YXyq9Y4ID
 ```
 ***
-    IMAGEPULLPOLICY
-  # Always --> Her pod olusturuldugunda image localden degil , registery'den cekilir
-  # Never --> Hicbir zaman registery'e gidilmez . local'deki imagelari kullanilir,yoksa hata verir.
-  # IfNotPresent --> Once local'e bakilir,varsa kullanir,yoksa registeryden image'i ceker
-  # Image tag'i latest ise imagePullPolicy default olarak Always'dir.
-  # Image tag'i belirli bir tag ise nginx:5.6 gibi o zaman default IfNotPresent'dir

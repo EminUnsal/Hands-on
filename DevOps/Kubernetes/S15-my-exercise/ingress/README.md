@@ -1,9 +1,7 @@
 # Ingress
 **ingress** konusuyla ilgili dosyalara buradan erişebilirsiniz.
 ***
-https://kubernetes.github.io/ingress-nginx/deploy/
-**IngressController uzerinde  ayarlamalar yapmak istersek Annotations bolumunde duzenleme yapabiliriz. Her IC gore icerikler gdegisiyor**
-**Ingress objelerinin listelenmesi**
+Ingress objelerinin listelenmesi
 
 ```
 $ kubectl get ingress

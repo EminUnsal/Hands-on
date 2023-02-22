@@ -22,7 +22,6 @@ $ minikube addons enable storage-provisioner
 
 ```
 $ kubectl apply -f testpod.yaml
-$ kubectl logs loggenerator -f
 ```
 
 * efk isimli yeni bir namespace oluştur

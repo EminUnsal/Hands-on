@@ -14,12 +14,10 @@ spec:
   - name: sidecarcontainer
     image: busybox
     command: ["/bin/sh"]
-    args: ["-c", "while true; do wget -O /var/log/index.html https://raw.githubusercontent.com/EminUnsal/mehmet/main/index.html; sleep 15; done"]
+    args: ["-c", "while true; do wget -O /var/log/index.html https://raw.githubusercontent.com/ozgurozturknet/hello-world/master/index.html; sleep 15; done"]
     volumeMounts:
     - name: sharedvolume
       mountPath: /var/log
   volumes:
   - name: sharedvolume
     emptyDir: {}
-
-    # kubectl port-forward pod/multicontainer 8080:80

@@ -1,20 +1,16 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name:  development
---- 
+  name: development
+---
 apiVersion: v1
 kind: Pod
 metadata:
-  name: myapp
   namespace: development
+  name: namespacepod
 spec:
   containers:
-  - name: mypod
-    image: nginx
-    resources:
-      limits:
-        memory: "128Mi"
-        cpu: "500m"
+  - name: namespacecontainer
+    image: nginx:latest
     ports:
-      - containerPort: 80
+    - containerPort: 80

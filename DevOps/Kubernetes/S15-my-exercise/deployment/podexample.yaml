@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: firstpod
+  name: examplepod
   labels:
     app: frontend
 spec:

@@ -77,6 +77,14 @@ spec:
             valueFrom:
               fieldRef:
                 fieldPath: status.podIP
+        readinessProbe:
+          exec:
+            command:
+            - /bin/bash
+            - -c
+            - /ready-probe.sh
+          initialDelaySeconds: 15
+          timeoutSeconds: 5
         volumeMounts:
         - name: cassandra-data
           mountPath: /cassandra_data

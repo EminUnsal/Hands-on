@@ -1,3 +1,2 @@
-FMRL Volume
-1-EmptyDir
-2-HostPath
+# Volume
+**volume** konusuyla ilgili dosyalara buradan erişebilirsiniz.
