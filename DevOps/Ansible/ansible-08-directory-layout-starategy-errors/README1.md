@@ -111,7 +111,7 @@ ansible-playbook ping-playbook.yml
     - name: Installing Mysql  and dependencies
       package:
         name: "{{ item }}"
-        state: present
+        state: present # paketin yuklu olup olmadigina bakiyot yukluyse atliyor.latest dersek gidip her turlu en son halini indirmeyi deniyor
         update_cache: yes
       loop:
         - mysql-server
@@ -135,7 +135,7 @@ ansible-playbook ping-playbook.yml
 
     - name: copy the sql script
       copy:
-        src: ~/init.sql
+        src: /home/ubuntu/ansible-lesson/phonebook/init.sql
         dest: ~/
 
     - name: creating phonebook_db

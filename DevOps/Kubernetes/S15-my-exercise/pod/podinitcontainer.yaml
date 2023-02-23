@@ -11,3 +11,4 @@ spec:
   - name: initcontainer
     image: busybox
     command: ['sh', '-c', "until nslookup myservice; do echo waiting for myservice; sleep 2; done"]
+    # Nslookup Komutu Nedir?: Dns Serverin Düzgün çalışıp çalışmadığı kontrol etmek için kullanılır.
