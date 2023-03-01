@@ -8,12 +8,12 @@ spec:
     image: ozgurozturknet/k8s
   affinity:
     nodeAffinity:
-      requiredDuringSchedulingIgnoredDuringExecution:
+      requiredDuringSchedulingIgnoredDuringExecution: # alttaki tanima gore bir node bul yoksa node olusturulmasin.eslesme mutlaka olmasi lazim
         nodeSelectorTerms:
         - matchExpressions:
           - key: app
-            operator: In #In, NotIn, Exists, DoesNotExist
-            values:
+            operator: In #In, NotIn(anti affinity demek), Exists(burada sadece key girerim degerin bir onemi yok demek,app olsunda degeri onemli degil)
+            values:      #DoesNotExist(ustunde app anahtari olmayan bir node)
             - blue
 ---
 apiVersion: v1
@@ -26,15 +26,15 @@ spec:
     image: ozgurozturknet/k8s
   affinity:
     nodeAffinity:
-      preferredDuringSchedulingIgnoredDuringExecution:
-      - weight: 1
+      preferredDuringSchedulingIgnoredDuringExecution: # tanima bak buna uygun bie node bul ,bulamazsan herhangi birinde olustur
+      - weight: 1 # hangisi daha oncelikli oldugunu ifade etmek icin
         preference:
           matchExpressions:
           - key: app
             operator: In
             values:
             - blue
-      - weight: 2
+      - weight: 2 # oncelik burada sunku 2 1'den buyuk
         preference:
           matchExpressions:
           - key: app
