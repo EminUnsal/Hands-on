@@ -9,10 +9,7 @@ kubectl cluster-info | awk 'NR == 1 {print $7}'
 
 # Join a new Kubernetes Worker Node a Cluster
 
-sudo kubeadm join \
-  <control-plane-host>:<control-plane-port> \
-  --token <token> \
-  --discovery-token-ca-cert-hash sha256:<hash>
+sudo kubeadm join 172.31.74.135:6443 --token 3k8bq6.wmewavgf2n561xq7 --discovery-token-ca-cert-hash sha256:fc042a96c3a36e7094b2dba9cb0e0b200106da5c9cca4c681e8364c2a7defa08
 
 sudo kubeadm join \
   192.168.122.195:6443 \

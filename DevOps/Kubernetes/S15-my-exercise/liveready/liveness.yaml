@@ -9,16 +9,16 @@ spec:
   - name: liveness
     image: k8s.gcr.io/liveness
     args:
-    - /server
-    livenessProbe:
+    - /server         ## bu container icinde bir web deamon calisacak
+    livenessProbe:  
       httpGet:
-        path: /healthz
-        port: 8080
+        path: /healthz    # git loccalhost/healthz:8080 ustunden bir http requesti yolla.return kod 200-400 arqaasin bir deger donerse problem yok.400 ve ustu donerse hata oldugunu algila, uygulamayi yeniden baslat
+        port: 8080        # buradaki sorgulama tamamiyle benim uygulamaya ozel olarak uygulanmali.boyle ozel bir endpiont;'i varsa bunu deneriz yoksa direk localhosta gitmeyi deneriz
         httpHeaders:
-        - name: Custom-Header
+        - name: Custom-Header #http request'i ozel bir header eklemek istersek kullanabiliriz
           value: Awesome
-      initialDelaySeconds: 3
-      periodSeconds: 3
+      initialDelaySeconds: 3  #uygulama hemen ayaga kalkmayabilir.on hazirlik yapmasi gerekeilir.container calistiktan sonra hemen hizmet vermeyebilir.ve liveness yuzunden uygulama restart edilir bunu engellemek icin.uygulamanin ayaga kalkma suresinden sonra liveness sorgulamasina baslamasini soyleyeblirsiniz
+      periodSeconds: 3        # bu isin kac saniyede bir yapilmasi gerektigini gosterir
 ---
 apiVersion: v1
 kind: Pod

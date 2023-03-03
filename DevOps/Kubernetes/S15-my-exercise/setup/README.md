@@ -10,7 +10,8 @@ https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-ku
 $ multipass launch --name master -c 2 -m 2G -d 10G
 $ multipass launch --name node1 -c 2 -m 2G -d 10G
 ```
-
+multipass shell master
+multipass shell node1
 **1:** Iptables bridged traffic ayarı
 
 ```
