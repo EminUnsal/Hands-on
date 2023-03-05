@@ -13,8 +13,8 @@ spec:
     rollingUpdate:
       maxUnavailable: 1  #maximum guncelleme sirasinda bir tane calismayan pod olsun 10% sekilde de belirtebiliriz.ilk pod guncellenen pod ayaga kalkar sonra eski rs belirtilen oranda podu unavailable yapar
       maxSurge: 1        # maximum desired olarak belirtilen pod sayisindan ne kadar fazla sistemde pod olabilecegini belirten kisim
-  template: 
-    metadata:
+  template:              # 100 pod olusacaksa 25% secmissem sistemde maximum 125 pod olabilir ayakta ayni anda 25 tane de siler.25 ayaga kalkar 25 tane siler
+    metadata:           # production ortaminda genellikle bu tercih edilir
       labels:
         app: web-flask
     spec:
