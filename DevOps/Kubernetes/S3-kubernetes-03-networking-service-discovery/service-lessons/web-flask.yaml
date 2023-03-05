@@ -7,12 +7,12 @@ spec:
   selector:  
     matchLabels:
       app: web-flask
-  minReadySeconds: 10 
-  strategy:
+  minReadySeconds: 10 # pod hazir olana kadar 10 sn'ye bekle
+  strategy: # deploymetni version icin kullaniliriz asil amac olarak.1-Recreate2-RollingUpdate adinda iki method var
     type: RollingUpdate 
     rollingUpdate:
-      maxUnavailable: 1 
-      maxSurge: 1 
+      maxUnavailable: 1  #maximum guncelleme sirasinda bir tane calismayan pod olsun 10% sekilde de belirtebiliriz.ilk pod guncellenen pod ayaga kalkar sonra eski rs belirtilen oranda podu unavailable yapar
+      maxSurge: 1        # maximum desired olarak belirtilen pod sayisindan ne kadar fazla sistemde pod olabilecegini belirten kisim
   template: 
     metadata:
       labels:

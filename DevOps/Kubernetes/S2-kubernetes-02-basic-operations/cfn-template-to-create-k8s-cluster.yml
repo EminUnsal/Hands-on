@@ -149,7 +149,7 @@ Resources:
             curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
             apt-add-repository "deb http://apt.kubernetes.io/ kubernetes-xenial main"
             apt update
-            apt install -y kubelet kubeadm kubectl
+            apt install -y kubelet=1.25.0-00 kubeadm=1.25.0-00 kubectl=1.25.0-00
             systemctl start kubelet
             systemctl enable kubelet
             kubeadm init --pod-network-cidr=172.16.0.0/16 --ignore-preflight-errors=All
@@ -205,7 +205,7 @@ Resources:
             curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
             apt-add-repository "deb http://apt.kubernetes.io/ kubernetes-xenial main"
             apt update
-            apt install -y kubelet kubeadm kubectl
+            apt install -y kubelet=1.25.0-00 kubeadm=1.25.0-00 kubectl=1.25.0-00
             systemctl start kubelet
             systemctl enable kubelet
             apt install -y python3-pip
