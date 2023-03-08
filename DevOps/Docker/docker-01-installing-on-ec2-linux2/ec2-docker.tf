@@ -7,21 +7,16 @@ terraform {
     }
   }
 }
-
-
 provider "aws" {
   region  = "us-east-1"
 }
-
 variable "secgr-dynamic-ports" {
   default = [22,80,443]
 }
-
 variable "instance-type" {
   default = "t2.micro"
   sensitive = true
 }
-
 resource "aws_security_group" "allow_ssh" {
   name        = "allow_ssh"
   description = "Allow SSH inbound traffic"
@@ -35,7 +30,6 @@ resource "aws_security_group" "allow_ssh" {
       cidr_blocks = ["0.0.0.0/0"]
   }
 }
-
   egress {
     description = "Outbound Allowed"
     from_port   = 0
@@ -44,7 +38,6 @@ resource "aws_security_group" "allow_ssh" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
-
 resource "aws_instance" "tf-ec2" {
   ami           = "ami-087c17d1fe0178315"
   instance_type = var.instance-type
@@ -54,7 +47,6 @@ resource "aws_instance" "tf-ec2" {
       tags = {
       Name = "Docker-engine"
   }
-
   user_data = <<-EOF
               #!/bin/bash
               yum update -y
