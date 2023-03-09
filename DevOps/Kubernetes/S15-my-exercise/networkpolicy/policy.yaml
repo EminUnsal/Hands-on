@@ -11,23 +11,24 @@ spec:
   - Ingress
   - Egress
   ingress:
-  - from:
-    - ipBlock:
-        cidr: 10.11.0.0/16
+  - from:    # 3 cesit ingress tanimlama sekli var
+    - ipBlock:   # bu ip blogu uzerinden gelen indress trafigine port:80 uzerinden izin ver
+        cidr: 10.11.0.0/16  # pod selector ile belirledigim portlara 10.11.0.0:80 uzerinden gelinirse bu podlara erisilebilecek
         except:
-        - 10.11.1.0/24
-    - namespaceSelector:
+        - 10.11.1.0/24 # 10.11.0.0/16 icindeki 10.11.1.0/24 bu ip blogundan gelen trafigi kabuel etme demek
+    - namespaceSelector:  ###team=b label'ina sahip namespace'deki tum podlar 80 portu uzerinden bu podlara erisebilsin
         matchLabels:
           team: b
-    - podSelector:
+    - podSelector:  
         matchLabels:
-          app: frontend
+          app: frontend # bu label'a sahip pod bu networkpolicynin atandigi podlara 80 portu uzerinden erisebilsin
     ports:
     - protocol: TCP
       port: 80
+    # endport:100 #port 80'den 100'e kdar gelinen herhangi bir porttan erisimi kabuel et demek 
   egress:
   - to:
-    - ipBlock:
+    - ipBlock:   #network policy'e assign edilen podlar sadece 1.1.1.1:80 ip adresine erisebilsin baska hicbiryere erisemesin
         cidr: 1.1.1.1/32
     ports:
     - protocol: TCP
