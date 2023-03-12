@@ -1,0 +1,117 @@
+name:
+hosts: all or "*",webserver,database...
+vars:
+tasks:
+  - name: Ping test
+     ping:  #ansible all -m ping
+  - name: Copy your file to the webservers
+     copy:
+       src: /home/ec2-user/testfile1
+       dest: /home/ec2-user/testfile1
+  - name: Copy your file to the ubuntuservers
+     copy:
+       src: /home/ec2-user/testfile1
+       dest: /home/ubuntu/testfile1
+  - name: Copy your file to the webservers
+     copy:
+       src: /home/ec2-user/testfile1
+       dest: /home/ec2-user/testfile1
+       mode: u+rw,g-wx,o-rwx
+  - name: Copy your file to the ubuntuservers
+     copy:
+       src: /home/ec2-user/testfile1
+       dest: /home/ubuntu/testfile1
+       mode: u+rw,g-wx,o-rwx
+  - name: Copy using inline content
+    copy:
+       content: '# This file was moved to /etc/ansible/testfile2'
+       dest: /home/ec2-user/testfile2
+
+  - name: Create a new text file
+      shell: "echo Hello World > /home/ec2-user/testfile3"
+
+  - name: install the latest version of Apache
+     yum:
+       name: httpd
+       state: latest
+  - name: start Apache
+     shell: "service httpd start"
+
+  - name: update
+     shell: "apt update -y"
+  - name: install the latest version of Apache
+     apt:
+       name: apache2
+       state: latest
+  - name: Remove Apache
+     yum:
+       name: httpd
+       state: absent
+  - name: Remove Apache
+     apt:
+       name: apache2
+       state: absent
+  - name: Remove unwanted Apache2 packages from the system
+     apt:
+       autoremove: yes
+       purge: yes
+  - name: installing apache
+     apt:
+       name: apache2
+       state: latest
+  - name: index.html
+     copy:
+       content: "<h1>Hello Clarusway</h1>"
+       dest: /var/www/html/index.html
+  - name: restart apache2
+     service:
+       name: apache2
+       state: restarted
+       enabled: yes
+  - name: installing httpd and wget
+      yum:
+        pkg: "{{ item }}"
+        state: present
+      loop:
+        - httpd
+        - wget
+  - name: Uninstalling Apache
+     apt:
+       name: apache2
+       state: absent
+       update_cache: yes
+  - name: Remove unwanted Apache2 packages
+     apt:
+       autoremove: yes
+       purge: yes
+  - name: removing apache and wget
+      yum:
+        pkg: "{{ item }}"
+        state: absent
+      loop:
+       - httpd
+       - wget
+  - user:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - joe
+        - matt
+        - james
+        - oliver
+      when: ansible_os_family == "RedHat"
+  - user:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - david
+        - tyler
+      when: ansible_os_family == "SUSE"
+
+  - user:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - john
+        - aaron
+      when: ansible_os_family == "Debian" or ansible_distribution_version == "20.04"
