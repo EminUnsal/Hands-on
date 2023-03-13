@@ -1,0 +1,16 @@
+[Unit]
+Description=nexus service
+After=network.target
+
+[Service]
+Type=forking
+LimitNOFILE=65536
+User=ec2-user
+Group=ec2-user
+ExecStart=/opt/nexus/bin/nexus start
+ExecStop=/opt/nexus/bin/nexus stop
+User=ec2-user
+Restart=on-abort
+
+[Install]
+WantedBy=multi-user.target

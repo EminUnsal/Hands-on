@@ -1,0 +1,2 @@
+Settings.xml'de nexus'un  public ip'sini yaz eger herkesin ulasmasini istiyorsan
+nano /home/ec2-user/.m2/settings.xml
