@@ -6,6 +6,7 @@
 
 provider "aws" {
   region = "us-east-1"
+  //  profile = "desmond"--> birden cok aws hesabi varsa
   //  access_key = ""
   //  secret_key = ""
   //  If you have entered your credentials in AWS CLI before, you do not need to use these arguments.
@@ -18,11 +19,11 @@ provider "github" {
 data "aws_caller_identity" "current" {}
 
 locals {
-  github-email    = "serdar@clarusway.com"   # you need to change this line
-  github-username = "serdarcw"               # you need to change this line
-  github-token    = ""                       # you need to change this line
-  key_pair        = ""                       # you need to change this line
-  pem_key_address = "~/Downloads/serdar.pem" # you need to change this line
+  github-email    = "eminunsal20@gmail.com"   # you need to change this line
+  github-username = "EminUnsal"               # you need to change this line
+  github-token    = ""                        # you need to change this line
+  key_pair        = "First_Key"               # you need to change this line
+  pem_key_address = "~/.ssh/First_Key.pem"    # you need to change this line
 }
 
 resource "github_repository" "githubrepo" {
@@ -56,7 +57,6 @@ resource "aws_security_group" "ec2-sec-gr" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
-
 
 resource "aws_iam_role" "roleforjenkins" {
   name                = "ecr_jenkins_permission"
