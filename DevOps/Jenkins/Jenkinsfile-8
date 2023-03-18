@@ -1,4 +1,4 @@
-// Olusmus olan ecs cluster'da  servisi guncelliyorum  ve var olan container'in yaninan  ikinci bir task(container) olusuyor
+// Olusmus olan ecs cluster'da  servisi guncelliyorum  ve var olan container'in yerine guncellenmis  bir task(container) olusuyor
 pipeline { 
     agent any
     environment {

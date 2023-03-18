@@ -376,9 +376,7 @@ aws ecs create-service --cluster to-do-app --service-name to-do-app-service --ta
 ```
 
 > Note: securityGroups=[sg-e29b36ce] is default sg. If we don't specify any sg, aws assign default sg to the cluster. Port #3000 should be allowed on the sg.
-
 - Change a `Jenkinsfile` within the `todo-app-node-project` repo and add Deploy stage like below.
-
 ```groovy
 pipeline {
     agent any
