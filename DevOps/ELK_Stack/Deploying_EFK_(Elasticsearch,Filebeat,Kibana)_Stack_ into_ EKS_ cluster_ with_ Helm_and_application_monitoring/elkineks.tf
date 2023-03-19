@@ -29,7 +29,7 @@ data "aws_ami" "amazon_linux2" {
 
 resource "aws_instance" "elk" {
   ami = data.aws_ami.amazon_linux2.id
-  instance_type = "t2.small"
+  instance_type = "t2.large"
   key_name = "First_Key"
   vpc_security_group_ids = [aws_security_group.elk-sg.id]
   iam_instance_profile = aws_iam_instance_profile.ec2-profile.name
@@ -37,7 +37,7 @@ resource "aws_instance" "elk" {
     volume_size = 16
   }
   tags = {
-    Name = "elk-server-mehmet"
+    Name = "elk-server"
   }
 }
 
