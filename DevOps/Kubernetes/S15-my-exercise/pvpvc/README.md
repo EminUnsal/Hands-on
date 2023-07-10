@@ -1,10 +1,15 @@
+# Eephemeral volume'ler Pod'un yasam suresi  boyunca datalari saklariz.(node icinde )EmptyDir,HostPath
+# PV ise cluster disinda oldugu icin worker node bir problem olsa bile veriye ulasilabilir
 # Persistent Volume ve Persistent Volume Claim
+AccessModes ayni anda birden fazla pod'a baglanildiginda ne sekilde bir davranis gosterir
+ReadWriteOnce | Okuma yazma-tek node |ReadOnlyMany | sadece okuma |ReadWriteMany | okuma yazma-birden fazla node
+persistentVolumeReclaimPolicy | recycle(volume silinmez ama bilgiler silinir) | delete |retain(volume ve bilgiler silinmez)
 **pv ve pvc** konusuyla ilgili dosyalara buradan erişebilirsiniz.
 
 ***
 NFS Server 
 ```
-$ docker volume create nfsvol
+$ docker volume create nfsvol 
 
 $ docker network create --driver=bridge --subnet=10.255.255.0/24 --ip-range=10.255.255.0/24 --gateway=10.255.255.10 nfsnet
 

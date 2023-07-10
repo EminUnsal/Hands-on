@@ -59,7 +59,7 @@ curl --silent --location "https://github.com/weaveworks/eksctl/releases/download
 - Move the extracted binary to /usr/local/bin.
 
 ```bash
-sudo mv /tmp/eksctl /usr/local/bin
+sudo mv /tmp/eksctl /usr/local/bin # 
 ```
 
 - Test that your installation was successful with the following command.
@@ -94,9 +94,7 @@ eksctl create cluster \
  --ssh-public-key  ~/.ssh/id_rsa.pub \
  --managed
 ```
-
 or 
-
 ```bash
 eksctl create cluster --region us-east-1 --zones us-east-1a,us-east-1b,us-east-1c --node-type t2.medium --nodes 2 --nodes-min 2 --nodes-max 3 --name my-cluster
 ```
@@ -105,8 +103,9 @@ eksctl create cluster --region us-east-1 --zones us-east-1a,us-east-1b,us-east-1
 
 ```bash
 eksctl create cluster --help
+eksctl get cluster --region=us-east-1
 ```
-
+Neden region belirtiyorum?CUnku role ile instance'e yetki verdigim icin her komutta bu sekilde belirtmem lazim
 - Show the aws `eks service` on aws management console and explain `eksctl-my-cluster-cluster` stack on `cloudformation service`.
 
 
